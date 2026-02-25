@@ -17,16 +17,20 @@
             --primary-dim: hsla(var(--hue), 70%, 60%, 0.12);
             --secondary: hsl(calc(var(--hue) + 54), 65%, 55%);
             --tertiary: hsl(calc(var(--hue) + 108), 60%, 50%);
-            --bg: #000;
-            --card: rgba(255, 255, 255, 0.015);
+            --bg: #0a0a0a;
+            --card: rgba(255, 255, 255, 0.03);
+            --card-hover: rgba(255, 255, 255, 0.05);
             --border: rgba(255, 255, 255, 0.08);
             --border-light: rgba(255, 255, 255, 0.15);
-            --text: rgba(255, 255, 255, 0.92);
+            --text: rgba(255, 255, 255, 0.95);
             --text-mid: rgba(255, 255, 255, 0.55);
-            --text-dim: rgba(255, 255, 255, 0.30);
+            --text-dim: rgba(255, 255, 255, 0.35);
             --red: #f87171;
             --gold: #fbbf24;
             --green: #4ade80;
+            --cyan: #22d3ee;
+            --purple: #a78bfa;
+            --orange: #fb923c;
         }
 
         body {
@@ -40,346 +44,427 @@
         /* Header */
         .header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            padding: 8px 20px;
-            background: #000;
-            position: relative;
-            border-bottom: 1px solid transparent;
-            background-image: linear-gradient(#000, #000),
-                              linear-gradient(90deg,
-                                  hsla(var(--hue), 70%, 60%, 0.4),
-                                  hsla(var(--hue), 70%, 60%, 0.7),
-                                  #fff,
-                                  #fff,
-                                  #fff,
-                                  hsla(var(--hue), 70%, 60%, 0.7),
-                                  hsla(var(--hue), 70%, 60%, 0.4));
-            background-clip: padding-box, border-box;
-            background-origin: padding-box, border-box;
+            padding: 20px 32px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
         }
 
-        .header-content {
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-container {
             position: relative;
             display: flex;
-            flex-direction: column;
             align-items: center;
+            gap: 12px;
         }
 
-        .lotus-orb {
-            position: absolute;
-            width: 90px;
-            height: 90px;
+        .logo-orb {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%,
-                hsla(var(--hue), 70%, 70%, 0.8),
-                hsla(var(--hue), 70%, 50%, 0.6),
-                hsla(calc(var(--hue) + 54), 65%, 45%, 0.4),
-                transparent);
-            filter: blur(2px);
-            opacity: 0.85;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+                hsla(var(--hue), 70%, 70%, 0.9),
+                hsla(var(--hue), 70%, 50%, 0.7),
+                hsla(calc(var(--hue) + 54), 65%, 45%, 0.5));
             animation: pulse 3s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.85; }
-            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.95; }
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
         }
 
         .logo {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: 700;
             color: #fff;
-            position: relative;
-            z-index: 1;
         }
 
-        /* Main Content */
-        .main {
-            padding: 16px 20px 80px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .top-bar {
+        .header-right {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .section-label {
-            font-size: 10px;
-            font-weight: 500;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
-            letter-spacing: 2px;
+            gap: 16px;
         }
 
         .live-badge {
             display: flex;
             align-items: center;
-            gap: 4px;
-            padding: 4px 8px;
+            gap: 6px;
+            padding: 8px 14px;
             background: var(--primary-dim);
-            border: 0.5px solid hsla(var(--hue), 70%, 60%, 0.3);
-            border-radius: 20px;
+            border: 1px solid hsla(var(--hue), 70%, 60%, 0.3);
+            border-radius: 24px;
         }
 
         .live-dot {
-            width: 5px;
-            height: 5px;
+            width: 8px;
+            height: 8px;
             background: var(--primary);
             border-radius: 50%;
-            box-shadow: 0 0 6px var(--primary);
-            animation: blink 1s ease-in-out infinite;
+            box-shadow: 0 0 8px var(--primary);
+            animation: blink 1.5s ease-in-out infinite;
         }
 
         @keyframes blink {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.4; }
         }
 
         .live-text {
-            font-size: 8px;
-            font-weight: 500;
-            font-family: 'SF Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
             color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 14px;
+        /* Main Content */
+        .main {
+            padding: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .card {
-            background: var(--card);
+        /* Page Title */
+        .page-title {
+            margin-bottom: 8px;
+        }
+
+        .page-title h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .page-title p {
+            font-size: 15px;
+            color: var(--text-mid);
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            margin: 24px 0 32px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .category-pill {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
             border-radius: 24px;
-            padding: 20px;
-            border: 0.5px solid;
-            border-image: linear-gradient(135deg,
-                rgba(255,255,255,0.2),
-                rgba(255,255,255,0.08),
-                rgba(255,255,255,0.04)) 1;
-            position: relative;
-            overflow: hidden;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-mid);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg,
-                transparent,
-                hsla(var(--hue), 70%, 60%, 0.3),
-                rgba(255,255,255,0.2),
-                hsla(var(--hue), 70%, 60%, 0.3),
-                transparent);
+        .category-pill:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
         }
 
-        .card-header {
+        .category-pill.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .hero-stat {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .hero-stat:hover {
+            background: var(--card-hover);
+            border-color: var(--border-light);
+        }
+
+        .hero-stat-header {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-bottom: 16px;
         }
 
-        .card-icon {
-            width: 16px;
-            height: 16px;
-            fill: var(--primary);
+        .hero-stat-icon {
+            font-size: 16px;
+            color: var(--primary);
         }
 
-        .card-title {
-            font-size: 10.5px;
+        .hero-stat-title {
+            font-size: 13px;
             font-weight: 500;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            color: var(--text-mid);
         }
 
-        .card-badge {
-            font-size: 9px;
-            font-weight: 500;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
-            padding: 3px 9px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin-left: auto;
-        }
-
-        .card-badge.warning {
-            color: var(--gold);
-            background: rgba(251, 191, 36, 0.1);
-            border-color: rgba(251, 191, 36, 0.3);
-        }
-
-        /* Drive Row */
-        .drive-row {
-            background: rgba(255,255,255,0.01);
-            border: 0.5px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 10px;
+        .hero-stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
             margin-bottom: 8px;
+        }
+
+        .hero-stat-value span {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-mid);
+        }
+
+        .hero-stat-change {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .hero-stat-change.positive {
+            color: var(--green);
+        }
+
+        .hero-stat-change.negative {
+            color: var(--red);
+        }
+
+        .hero-stat-change .label {
+            color: var(--text-dim);
+            font-weight: 400;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .card-title-group h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .card-subtitle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-mid);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            box-shadow: 0 0 6px currentColor;
+        }
+
+        .status-dot.green { background: var(--green); color: var(--green); }
+        .status-dot.red { background: var(--red); color: var(--red); }
+
+        .card-big-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .card-big-number span {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-mid);
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Storage Card */
+        .storage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .storage-info h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .storage-info p {
+            font-size: 14px;
+            color: var(--text-mid);
+        }
+
+        .donut-chart {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) calc(var(--percent) * 3.6deg), rgba(255,255,255,0.08) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .donut-chart::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: var(--bg);
+            border-radius: 50%;
+        }
+
+        .donut-value {
+            position: relative;
+            z-index: 1;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .drive-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .drive-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .drive-info {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            gap: 10px;
+        }
+
+        .drive-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
         }
 
         .drive-name {
-            font-size: 12px;
+            font-size: 15px;
             font-weight: 500;
-            color: var(--text);
+            color: #fff;
+            flex: 1;
         }
 
-        .drive-stats {
-            display: flex;
-            gap: 8px;
-            font-size: 11px;
+        .drive-size {
+            font-size: 14px;
+            font-weight: 600;
             font-family: 'SF Mono', monospace;
-        }
-
-        .drive-stats span {
             color: var(--text-mid);
         }
 
         .drive-percent {
-            font-weight: 700;
-        }
-
-        .progress-bar {
-            height: 6px;
-            background: rgba(255,255,255,0.06);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--primary);
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-
-        .progress-fill.warning {
-            background: var(--gold);
-        }
-
-        .progress-fill.danger {
-            background: var(--red);
-        }
-
-        /* AI Usage Styles */
-        .ai-model-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .ai-label {
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--text-dim);
-        }
-
-        .ai-value {
-            font-size: 12px;
-            font-weight: 600;
-            font-family: 'SF Mono', monospace;
-            color: var(--text);
-        }
-
-        .ai-value.accent {
-            color: var(--primary);
-        }
-
-        .ai-stats-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .ai-stat-box {
-            flex: 1;
-            padding: 10px;
-            background: rgba(255,255,255,0.015);
-            border: 0.5px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
-
-        .ai-stat-label {
-            font-size: 8px;
-            font-weight: 500;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
-            margin-bottom: 4px;
-        }
-
-        .ai-stat-value {
-            font-size: 18px;
-            font-weight: 700;
-            font-family: 'SF Mono', monospace;
-            color: var(--primary);
-        }
-
-        .ai-stat-value.secondary {
-            color: var(--secondary);
-        }
-
-        .ai-cost-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background: var(--primary-dim);
-            border: 0.5px solid hsla(var(--hue), 70%, 60%, 0.2);
-            border-radius: 10px;
-            margin-top: 12px;
-        }
-
-        .ai-cost-value {
             font-size: 14px;
             font-weight: 700;
             font-family: 'SF Mono', monospace;
-            color: var(--primary);
         }
 
-        /* System Stats */
-        .system-stats {
+        .drive-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .drive-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Token Stats */
+        .token-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .token-box {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .token-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        .token-value {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        /* Gauge Row */
+        .gauge-row {
             display: flex;
-            gap: 10px;
-            margin: 14px 0;
+            gap: 20px;
+            justify-content: space-around;
         }
 
-        .mini-gauge {
-            flex: 1;
+        .gauge-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 10px;
         }
 
         .gauge-circle {
-            width: 40px;
-            height: 40px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background: conic-gradient(var(--primary) calc(var(--percent) * 3.6deg), rgba(255,255,255,0.06) 0);
+            background: conic-gradient(var(--color, var(--primary)) calc(var(--percent) * 3.6deg), rgba(255,255,255,0.08) 0);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -389,393 +474,237 @@
         .gauge-circle::before {
             content: '';
             position: absolute;
-            width: 32px;
-            height: 32px;
-            background: #000;
+            width: 54px;
+            height: 54px;
+            background: var(--bg);
             border-radius: 50%;
         }
 
         .gauge-value {
             position: relative;
             z-index: 1;
-            font-size: 12px;
+            font-size: 16px;
             font-weight: 700;
-            font-family: 'SF Mono', monospace;
             color: #fff;
         }
 
         .gauge-label {
-            font-size: 8px;
-            font-weight: 500;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
-        }
-
-        /* Status Pills */
-        .status-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .status-pill {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 10px;
-            background: rgba(255,255,255,0.03);
-            border: 0.5px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 500;
-        }
-
-        .status-pill .dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-        }
-
-        .status-pill .dot.on {
-            background: var(--primary);
-            box-shadow: 0 0 4px var(--primary);
-        }
-
-        .status-pill .dot.off {
-            background: var(--red);
-        }
-
-        /* Backup Status */
-        .backup-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background: var(--primary-dim);
-            border: 0.5px solid hsla(var(--hue), 70%, 60%, 0.2);
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--primary);
-        }
-
-        /* Website Row */
-        .website-row {
-            background: rgba(255,255,255,0.015);
-            border: 0.5px solid rgba(255,255,255,0.1);
-            border-radius: 14px;
-            padding: 12px;
-            margin-bottom: 8px;
-        }
-
-        .website-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-
-        .website-name {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .website-name .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--primary);
-            box-shadow: 0 0 6px var(--primary);
-            animation: blink 1s ease-in-out infinite;
-        }
-
-        .website-name span {
             font-size: 12px;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .website-status {
-            font-size: 9px;
             font-weight: 500;
-            font-family: 'SF Mono', monospace;
-            color: var(--primary);
-            padding: 2px 8px;
-            background: var(--primary-dim);
-            border-radius: 6px;
-            text-transform: uppercase;
-        }
-
-        .website-metrics {
-            display: flex;
-            gap: 12px;
-            font-size: 9px;
-            font-family: 'SF Mono', monospace;
-        }
-
-        .website-metrics span {
             color: var(--text-dim);
         }
 
-        .website-metrics strong {
-            color: var(--text-mid);
-            font-weight: 500;
-        }
-
-        .website-metrics .accent {
-            color: var(--primary);
-        }
-
-        /* App Download Row */
-        .app-row {
-            background: rgba(255,255,255,0.015);
-            border: 0.5px solid rgba(255,255,255,0.1);
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 12px;
-        }
-
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
-
-        .app-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .app-icon {
-            font-size: 22px;
-        }
-
-        .app-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .app-rating {
-            font-size: 10px;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
-        }
-
-        .app-rating .star {
-            color: var(--gold);
-        }
-
-        .app-downloads {
-            text-align: right;
-        }
-
-        .app-downloads .number {
-            font-size: 22px;
-            font-weight: 700;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
-        }
-
-        .app-downloads .label {
-            font-size: 9px;
-            font-family: 'SF Mono', monospace;
-            color: var(--gold);
-        }
-
-        .app-stats {
-            display: flex;
-            gap: 12px;
-        }
-
-        .stat-badge {
-            flex: 1;
-            padding: 8px 12px;
-            background: rgba(255,255,255,0.015);
-            border: 0.5px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-        }
-
-        .stat-badge .label {
-            font-size: 9px;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
-            margin-bottom: 3px;
-        }
-
-        .stat-badge .value {
-            font-size: 15px;
-            font-weight: 700;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
-        }
-
-        /* Social Row */
-        .social-row {
-            background: rgba(255,255,255,0.015);
-            border: 0.5px solid rgba(255,255,255,0.1);
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 10px;
-        }
-
-        .social-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .social-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .social-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .manual-badge {
-            font-size: 7px;
-            font-weight: 700;
-            font-family: 'SF Mono', monospace;
-            color: var(--gold);
-            padding: 2px 5px;
-            background: rgba(251, 191, 36, 0.1);
-            border-radius: 4px;
-        }
-
-        .social-handle {
-            font-size: 10px;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
-        }
-
-        .social-metrics {
-            display: flex;
-            gap: 8px;
-        }
-
-        .metric {
-            flex: 1;
+        .big-number-stat {
             text-align: center;
         }
 
-        .metric .value {
-            font-size: 16px;
+        .big-number-stat .value {
+            font-size: 38px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .big-number-stat .label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-dim);
+        }
+
+        /* Website List */
+        .website-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .website-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+        }
+
+        .website-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #fff;
+            flex: 1;
+        }
+
+        .website-latency {
+            font-size: 13px;
+            font-weight: 500;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-mid);
+        }
+
+        .website-uptime {
+            font-size: 13px;
             font-weight: 700;
             font-family: 'SF Mono', monospace;
             color: var(--primary);
         }
 
-        .metric .label {
-            font-size: 9px;
-            font-family: 'SF Mono', monospace;
-            color: var(--text-dim);
+        /* Marketing Stats */
+        .marketing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
-        /* Task Row */
-        .task-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 12px;
-            background: rgba(255,255,255,0.015);
-            border: 0.5px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
+        .marketing-stat {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .marketing-stat .value {
+            font-size: 28px;
+            font-weight: 700;
             margin-bottom: 4px;
         }
 
-        .task-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .task-dot.done {
-            background: var(--primary);
-            box-shadow: 0 0 4px var(--primary);
-        }
-
-        .task-dot.running {
-            background: var(--gold);
-            box-shadow: 0 0 4px var(--gold);
-            animation: blink 1s ease-in-out infinite;
-        }
-
-        .task-name {
-            flex: 1;
-            font-size: 12px;
+        .marketing-stat .label {
+            font-size: 13px;
             font-weight: 500;
-            color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: var(--text-mid);
+            margin-bottom: 8px;
         }
 
-        .task-duration {
-            font-size: 10px;
-            font-family: 'SF Mono', monospace;
+        .marketing-stat .change {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        /* Social Rows */
+        .social-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+        }
+
+        .social-icon {
+            font-size: 22px;
+        }
+
+        .social-info {
+            flex: 1;
+        }
+
+        .social-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .social-meta {
+            font-size: 13px;
             color: var(--text-dim);
         }
 
-        .task-time {
-            font-size: 10px;
+        .social-views {
+            font-size: 17px;
+            font-weight: 700;
             font-family: 'SF Mono', monospace;
-            color: rgba(255,255,255,0.1);
-            width: 38px;
-            text-align: right;
+            color: var(--text-mid);
         }
 
-        /* Alert Row */
-        .alert-row {
-            padding: 11px 14px;
-            background: rgba(255,255,255,0.02);
-            border: 0.5px solid rgba(255,255,255,0.08);
+        /* Activity List */
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .activity-header h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .view-all {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .activity-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 14px;
-            margin-bottom: 6px;
-            border-left: 3px solid var(--primary);
-            position: relative;
         }
 
-        .alert-row.warning {
-            border-left-color: var(--gold);
-            background: rgba(251, 191, 36, 0.02);
+        .activity-message {
+            font-size: 15px;
+            font-weight: 500;
+            color: #fff;
+            flex: 1;
         }
 
-        .alert-row.error {
-            border-left-color: var(--red);
-            background: rgba(248, 113, 113, 0.02);
-        }
-
-        .alert-row.info {
-            border-left-color: #60a5fa;
-            background: rgba(96, 165, 250, 0.02);
-        }
-
-        .alert-message {
-            font-size: 12px;
-            color: var(--text);
-            margin-bottom: 3px;
-        }
-
-        .alert-time {
-            font-size: 9.5px;
+        .activity-time {
+            font-size: 13px;
+            font-weight: 500;
             font-family: 'SF Mono', monospace;
             color: var(--text-dim);
         }
 
         /* Responsive */
-        @media (max-width: 700px) {
-            .cards-grid {
+        @media (max-width: 1100px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+            .main {
+                padding: 20px;
+            }
+
+            .two-col {
                 grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stat-value {
+                font-size: 36px;
+            }
+
+            .marketing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
             }
         }
     </style>
@@ -783,477 +712,290 @@
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="header-content">
-            <div class="lotus-orb"></div>
-            <span class="logo">Kitt</span>
+        <div class="header-left">
+            <div class="logo-container">
+                <div class="logo-orb"></div>
+                <span class="logo">Kitt</span>
+            </div>
         </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main">
-        <div class="top-bar">
-            <span class="section-label">CONTROL CENTER</span>
+        <div class="header-right">
             <div class="live-badge">
                 <div class="live-dot" id="live-dot"></div>
                 <span class="live-text" id="live-text">Live</span>
             </div>
         </div>
+    </header>
 
-        <div class="cards-grid">
-            <!-- Mac Health Card -->
+    <!-- Main Content -->
+    <main class="main">
+        <div class="page-title">
+            <h1>Dashboard</h1>
+            <p>Your systems at a glance</p>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <div class="category-pill active">Overview</div>
+            <div class="category-pill">Mac Health</div>
+            <div class="category-pill">AI Usage</div>
+            <div class="category-pill">Websites</div>
+            <div class="category-pill">Marketing</div>
+        </div>
+
+        <!-- Hero Stats -->
+        <div class="stats-grid">
+            <div class="hero-stat">
+                <div class="hero-stat-header">
+                    <span class="hero-stat-icon">💻</span>
+                    <span class="hero-stat-title">CPU Usage</span>
+                </div>
+                <div class="hero-stat-value" id="cpu-value">23<span>%</span></div>
+                <div class="hero-stat-change positive">
+                    <span>↓ 5%</span>
+                    <span class="label">vs yesterday</span>
+                </div>
+            </div>
+
+            <div class="hero-stat">
+                <div class="hero-stat-header">
+                    <span class="hero-stat-icon">🧠</span>
+                    <span class="hero-stat-title">Memory</span>
+                </div>
+                <div class="hero-stat-value" id="mem-value">67<span>%</span></div>
+                <div class="hero-stat-change negative">
+                    <span>↑ 12%</span>
+                    <span class="label">vs yesterday</span>
+                </div>
+            </div>
+
+            <div class="hero-stat">
+                <div class="hero-stat-header">
+                    <span class="hero-stat-icon">⚡</span>
+                    <span class="hero-stat-title">Processes</span>
+                </div>
+                <div class="hero-stat-value" id="process-count">142</div>
+                <div class="hero-stat-change positive">
+                    <span>↓ 8</span>
+                    <span class="label">vs yesterday</span>
+                </div>
+            </div>
+
+            <div class="hero-stat">
+                <div class="hero-stat-header">
+                    <span class="hero-stat-icon">🌐</span>
+                    <span class="hero-stat-title">Websites</span>
+                </div>
+                <div class="hero-stat-value">4<span> sites</span></div>
+                <div class="hero-stat-change positive">
+                    <span class="status-dot green"></span>
+                    <span class="label">All operational</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="two-col">
+            <!-- Storage Card -->
             <div class="card">
-                <div class="card-header">
-                    <svg class="card-icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="6" y1="20" x2="6" y2="24" stroke="currentColor" stroke-width="2"/><line x1="18" y1="20" x2="18" y2="24" stroke="currentColor" stroke-width="2"/></svg>
-                    <span class="card-title">Mac Health</span>
-                    <span class="card-badge">Live</span>
+                <div class="storage-header">
+                    <div class="storage-info">
+                        <h2>Storage</h2>
+                        <p id="storage-summary">4,462 GB of 7,500 GB used</p>
+                    </div>
+                    <div class="donut-chart" id="storage-chart" style="--percent: 60">
+                        <span class="donut-value" id="storage-percent">60%</span>
+                    </div>
                 </div>
-
-                <!-- Drives -->
-                <div id="drives-container">
+                <div class="drive-list" id="drives-container">
                     <div class="drive-row">
                         <div class="drive-info">
+                            <div class="drive-color" style="background: var(--cyan)"></div>
                             <span class="drive-name">Macintosh HD</span>
-                            <div class="drive-stats">
-                                <span>412 / 500 GB</span>
-                                <span class="drive-percent" style="color: var(--primary)">82%</span>
-                            </div>
+                            <span class="drive-size">412 GB</span>
+                            <span class="drive-percent" style="color: var(--cyan)">82%</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 82%"></div>
+                        <div class="drive-bar">
+                            <div class="drive-bar-fill" style="width: 82%; background: var(--cyan)"></div>
                         </div>
                     </div>
                     <div class="drive-row">
                         <div class="drive-info">
+                            <div class="drive-color" style="background: var(--purple)"></div>
                             <span class="drive-name">5TB External</span>
-                            <div class="drive-stats">
-                                <span>2847 / 5000 GB</span>
-                                <span class="drive-percent" style="color: var(--primary)">57%</span>
-                            </div>
+                            <span class="drive-size">2847 GB</span>
+                            <span class="drive-percent" style="color: var(--purple)">57%</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 57%"></div>
+                        <div class="drive-bar">
+                            <div class="drive-bar-fill" style="width: 57%; background: var(--purple)"></div>
                         </div>
                     </div>
                     <div class="drive-row">
                         <div class="drive-info">
+                            <div class="drive-color" style="background: var(--orange)"></div>
                             <span class="drive-name">2TB Backup</span>
-                            <div class="drive-stats">
-                                <span>1203 / 2000 GB</span>
-                                <span class="drive-percent" style="color: var(--primary)">60%</span>
-                            </div>
+                            <span class="drive-size">1203 GB</span>
+                            <span class="drive-percent" style="color: var(--orange)">60%</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 60%"></div>
+                        <div class="drive-bar">
+                            <div class="drive-bar-fill" style="width: 60%; background: var(--orange)"></div>
                         </div>
                     </div>
-                </div>
-
-                <!-- System Stats -->
-                <div class="system-stats">
-                    <div class="mini-gauge">
-                        <div class="gauge-circle" id="cpu-gauge" style="--percent: 23">
-                            <span class="gauge-value" id="cpu-value">23</span>
-                        </div>
-                        <span class="gauge-label">CPU</span>
-                    </div>
-                    <div class="mini-gauge">
-                        <div class="gauge-circle" id="mem-gauge" style="--percent: 67; background: conic-gradient(var(--secondary) calc(67 * 3.6deg), rgba(255,255,255,0.06) 0)">
-                            <span class="gauge-value" id="mem-value">67</span>
-                        </div>
-                        <span class="gauge-label">MEM</span>
-                    </div>
-                    <div class="mini-gauge">
-                        <div style="display: flex; align-items: center; gap: 4px;">
-                            <div class="live-dot" style="animation: none; opacity: 1;"></div>
-                            <span id="process-count" style="font-size: 14px; font-weight: 700; font-family: 'SF Mono', monospace; color: #fff;">142</span>
-                        </div>
-                        <span class="gauge-label">PROCESSES</span>
-                    </div>
-                </div>
-
-                <!-- Security Status -->
-                <div class="status-row">
-                    <div class="status-pill">
-                        <span>🔥</span>
-                        <span>Firewall</span>
-                        <div class="dot on" id="firewall-dot"></div>
-                    </div>
-                    <div class="status-pill">
-                        <span>🔐</span>
-                        <span>FileVault</span>
-                        <div class="dot on" id="filevault-dot"></div>
-                    </div>
-                </div>
-
-                <!-- Backup Status -->
-                <div class="backup-status" id="backup-status">
-                    <span>✓</span>
-                    <span>Last backup: Today 2:30 PM</span>
                 </div>
             </div>
 
             <!-- AI Usage Card -->
             <div class="card">
                 <div class="card-header">
-                    <svg class="card-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2" stroke="currentColor" stroke-width="2"/></svg>
-                    <span class="card-title">AI Usage</span>
-                    <span class="card-badge">Live</span>
-                </div>
-
-                <!-- Model Name -->
-                <div class="ai-model-row">
-                    <span class="ai-label">Model</span>
-                    <span class="ai-value accent" id="ai-model">Claude Opus 4.5</span>
-                </div>
-
-                <!-- Token Stats -->
-                <div class="ai-stats-row">
-                    <div class="ai-stat-box">
-                        <div class="ai-stat-label">TOKENS IN</div>
-                        <div class="ai-stat-value" id="ai-tokens-in">12.4K</div>
-                    </div>
-                    <div class="ai-stat-box">
-                        <div class="ai-stat-label">TOKENS OUT</div>
-                        <div class="ai-stat-value secondary" id="ai-tokens-out">8.7K</div>
-                    </div>
-                </div>
-
-                <!-- Gauges -->
-                <div class="system-stats">
-                    <div class="mini-gauge">
-                        <div class="gauge-circle" id="cache-gauge" style="--percent: 73">
-                            <span class="gauge-value" id="cache-value">73</span>
+                    <div class="card-title-group">
+                        <div class="card-subtitle">
+                            <span class="status-dot green"></span>
+                            <span id="ai-model">Claude Opus 4.5</span>
                         </div>
-                        <span class="gauge-label">CACHE</span>
+                        <h2>AI Usage</h2>
                     </div>
-                    <div class="mini-gauge">
-                        <div class="gauge-circle" id="ctx-gauge" style="--percent: 45; background: conic-gradient(var(--secondary) calc(45 * 3.6deg), rgba(255,255,255,0.06) 0)">
-                            <span class="gauge-value" id="ctx-value">45</span>
-                        </div>
-                        <span class="gauge-label">CTX</span>
+                    <div class="card-big-number" id="ai-cost">$0.42</div>
+                </div>
+                <div class="token-grid">
+                    <div class="token-box">
+                        <div class="token-label">Tokens In</div>
+                        <div class="token-value" id="ai-tokens-in" style="color: var(--primary)">12.4K</div>
                     </div>
-                    <div class="mini-gauge">
-                        <div style="display: flex; flex-direction: column; align-items: center;">
-                            <span id="compaction-count" style="font-size: 18px; font-weight: 700; font-family: 'SF Mono', monospace; color: #fff;">2</span>
-                        </div>
-                        <span class="gauge-label">COMPACTS</span>
+                    <div class="token-box">
+                        <div class="token-label">Tokens Out</div>
+                        <div class="token-value" id="ai-tokens-out" style="color: var(--secondary)">8.7K</div>
                     </div>
                 </div>
-
-                <!-- Estimated Cost -->
-                <div class="ai-cost-row">
-                    <span class="ai-label">Estimated Cost</span>
-                    <span class="ai-cost-value" id="ai-cost">$0.42</span>
+                <div class="gauge-row">
+                    <div class="gauge-item">
+                        <div class="gauge-circle" id="cache-gauge" style="--percent: 73; --color: var(--primary)">
+                            <span class="gauge-value" id="cache-value">73%</span>
+                        </div>
+                        <span class="gauge-label">Cache Hit</span>
+                    </div>
+                    <div class="gauge-item">
+                        <div class="gauge-circle" id="ctx-gauge" style="--percent: 45; --color: var(--secondary)">
+                            <span class="gauge-value" id="ctx-value">45%</span>
+                        </div>
+                        <span class="gauge-label">Context</span>
+                    </div>
+                    <div class="big-number-stat">
+                        <div class="value" id="compaction-count">2</div>
+                        <div class="label">Compactions</div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Websites Card -->
-            <div class="card">
-                <div class="card-header">
-                    <svg class="card-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                    <span class="card-title">Websites</span>
-                    <span class="card-badge">Live</span>
+        <!-- Websites Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-group">
+                    <h2>Websites</h2>
+                    <div class="card-subtitle">
+                        <span class="status-dot green"></span>
+                        <span>All systems operational</span>
+                    </div>
                 </div>
-
-                <div id="websites-container">
+                <div class="card-big-number">4<span> sites</span></div>
+            </div>
+            <div class="website-list" id="websites-container">
                 <div class="website-row">
-                    <div class="website-header">
-                        <div class="website-name">
-                            <div class="dot"></div>
-                            <span>jmedinaphotos.surge.sh</span>
-                        </div>
-                        <span class="website-status">UP</span>
-                    </div>
-                    <div class="website-metrics">
-                        <span>Latency <strong>89ms</strong></span>
-                        <span>Uptime <strong class="accent">99.97%</strong></span>
-                        <span>SSL <strong class="accent">✓</strong></span>
-                        <span style="margin-left: auto;">Deployed <strong style="color: var(--secondary)">Feb 24, 2026</strong></span>
-                    </div>
+                    <span class="status-dot green"></span>
+                    <span class="website-name">eccoti.com</span>
+                    <span class="website-latency">142ms</span>
+                    <span class="website-uptime">99.98%</span>
                 </div>
-
                 <div class="website-row">
-                    <div class="website-header">
-                        <div class="website-name">
-                            <div class="dot"></div>
-                            <span>eccoti.com</span>
-                        </div>
-                        <span class="website-status">UP</span>
-                    </div>
-                    <div class="website-metrics">
-                        <span>Latency <strong>142ms</strong></span>
-                        <span>Uptime <strong class="accent">99.98%</strong></span>
-                        <span>SSL <strong class="accent">✓</strong></span>
-                    </div>
+                    <span class="status-dot green"></span>
+                    <span class="website-name">backtime.app</span>
+                    <span class="website-latency">98ms</span>
+                    <span class="website-uptime">99.99%</span>
                 </div>
-
                 <div class="website-row">
-                    <div class="website-header">
-                        <div class="website-name">
-                            <div class="dot"></div>
-                            <span>backtime.app</span>
-                        </div>
-                        <span class="website-status">UP</span>
-                    </div>
-                    <div class="website-metrics">
-                        <span>Latency <strong>98ms</strong></span>
-                        <span>Uptime <strong class="accent">99.99%</strong></span>
-                        <span>SSL <strong class="accent">✓</strong></span>
-                    </div>
+                    <span class="status-dot green"></span>
+                    <span class="website-name">api.eccoti.com</span>
+                    <span class="website-latency">67ms</span>
+                    <span class="website-uptime">100%</span>
                 </div>
-
                 <div class="website-row">
-                    <div class="website-header">
-                        <div class="website-name">
-                            <div class="dot"></div>
-                            <span>api.eccoti.com</span>
-                        </div>
-                        <span class="website-status">UP</span>
-                    </div>
-                    <div class="website-metrics">
-                        <span>Latency <strong>67ms</strong></span>
-                        <span>Uptime <strong class="accent">100%</strong></span>
-                        <span>SSL <strong class="accent">✓</strong></span>
-                    </div>
-                </div>
+                    <span class="status-dot green"></span>
+                    <span class="website-name">jmedinaphotos.surge.sh</span>
+                    <span class="website-latency">89ms</span>
+                    <span class="website-uptime">99.97%</span>
                 </div>
             </div>
+        </div>
 
-            <!-- App Downloads Card -->
-            <div class="card">
-                <div class="card-header">
-                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <span class="card-title">App Downloads</span>
-                    <span class="card-badge warning">Needs Setup</span>
-                </div>
-
-                <div id="downloads-container">
-                <div class="app-row">
-                    <div class="app-header">
-                        <div class="app-info">
-                            <span class="app-icon">📱</span>
-                            <div>
-                                <div class="app-name">Eccoti</div>
-                                <div class="app-rating"><span class="star">★</span> 4.8 App Store</div>
-                            </div>
-                        </div>
-                        <div class="app-downloads">
-                            <div class="number">—</div>
-                            <div class="label">needs API setup</div>
-                        </div>
-                    </div>
-                    <div class="app-stats">
-                        <div class="stat-badge">
-                            <div class="label">TODAY</div>
-                            <div class="value">—</div>
-                        </div>
-                        <div class="stat-badge">
-                            <div class="label">THIS WEEK</div>
-                            <div class="value">—</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="app-row">
-                    <div class="app-header">
-                        <div class="app-info">
-                            <span class="app-icon">⏱</span>
-                            <div>
-                                <div class="app-name">BackTime</div>
-                                <div class="app-rating"><span class="star">★</span> 4.6 App Store</div>
-                            </div>
-                        </div>
-                        <div class="app-downloads">
-                            <div class="number">—</div>
-                            <div class="label">needs API setup</div>
-                        </div>
-                    </div>
-                    <div class="app-stats">
-                        <div class="stat-badge">
-                            <div class="label">TODAY</div>
-                            <div class="value">—</div>
-                        </div>
-                        <div class="stat-badge">
-                            <div class="label">THIS WEEK</div>
-                            <div class="value">—</div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Marketing Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-group">
+                    <h2>Marketing</h2>
                 </div>
             </div>
-
-            <!-- Marketing Card -->
-            <div class="card">
-                <div class="card-header">
-                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M3 3v18h18" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 16l4-4 4 4 5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                    <span class="card-title">Marketing</span>
-                    <span class="card-badge">Partial</span>
+            <div class="marketing-grid" id="marketing-stats">
+                <div class="marketing-stat">
+                    <div class="value" style="color: var(--primary)">12.4K</div>
+                    <div class="label">Views</div>
+                    <div class="change">↑ +18%</div>
                 </div>
-
-                <div id="marketing-container">
+                <div class="marketing-stat">
+                    <div class="value" style="color: var(--secondary)">2.7K</div>
+                    <div class="label">Likes</div>
+                    <div class="change">↑ +12%</div>
+                </div>
+                <div class="marketing-stat">
+                    <div class="value" style="color: var(--tertiary)">+519</div>
+                    <div class="label">Followers</div>
+                    <div class="change">↑ +8%</div>
+                </div>
+            </div>
+            <div class="social-list" id="marketing-container">
                 <div class="social-row">
-                    <div class="social-header">
-                        <div class="social-info">
-                            <span>🎵</span>
-                            <span class="social-name">Eccoti</span>
-                            <span class="manual-badge">MANUAL</span>
-                        </div>
-                        <span class="social-handle">@eccoti</span>
+                    <span class="social-icon">🎵</span>
+                    <div class="social-info">
+                        <div class="social-name">TikTok</div>
+                        <div class="social-meta">2 accounts</div>
                     </div>
-                    <div class="social-metrics">
-                        <div class="metric">
-                            <div class="value">12.4K</div>
-                            <div class="label">Views</div>
-                        </div>
-                        <div class="metric">
-                            <div class="value" style="color: var(--secondary)">1.8K</div>
-                            <div class="label">Likes</div>
-                        </div>
-                        <div class="metric">
-                            <div class="value" style="color: var(--tertiary)">+247</div>
-                            <div class="label">Followers</div>
-                        </div>
-                    </div>
+                    <span class="social-views">17.5K</span>
                 </div>
-
                 <div class="social-row">
-                    <div class="social-header">
-                        <div class="social-info">
-                            <span>📷</span>
-                            <span class="social-name">Eccoti</span>
-                            <span class="manual-badge">MANUAL</span>
-                        </div>
-                        <span class="social-handle">@eccoti.app</span>
+                    <span class="social-icon">📷</span>
+                    <div class="social-info">
+                        <div class="social-name">Instagram</div>
+                        <div class="social-meta">1 account</div>
                     </div>
-                    <div class="social-metrics">
-                        <div class="metric">
-                            <div class="value">8.2K</div>
-                            <div class="label">Reach</div>
-                        </div>
-                        <div class="metric">
-                            <div class="value" style="color: var(--secondary)">4.1%</div>
-                            <div class="label">Engagement</div>
-                        </div>
-                        <div class="metric">
-                            <div class="value" style="color: var(--tertiary)">+183</div>
-                            <div class="label">Followers</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="social-row">
-                    <div class="social-header">
-                        <div class="social-info">
-                            <span>🎵</span>
-                            <span class="social-name">BackTime</span>
-                            <span class="manual-badge">MANUAL</span>
-                        </div>
-                        <span class="social-handle">@backtime.app</span>
-                    </div>
-                    <div class="social-metrics">
-                        <div class="metric">
-                            <div class="value">5.1K</div>
-                            <div class="label">Views</div>
-                        </div>
-                        <div class="metric">
-                            <div class="value" style="color: var(--secondary)">892</div>
-                            <div class="label">Likes</div>
-                        </div>
-                        <div class="metric">
-                            <div class="value" style="color: var(--tertiary)">+89</div>
-                            <div class="label">Followers</div>
-                        </div>
-                    </div>
-                </div>
+                    <span class="social-views">8.2K</span>
                 </div>
             </div>
+        </div>
 
-            <!-- Tasks Card -->
-            <div class="card">
-                <div class="card-header">
-                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                    <span class="card-title">Tasks Log</span>
-                    <span class="card-badge">Today</span>
-                </div>
-
-                <div id="tasks-container">
-                <div class="task-row">
-                    <div class="task-dot done"></div>
-                    <span class="task-name">Backup ~/Documents to iCloud</span>
-                    <span class="task-duration">3m 12s</span>
-                    <span class="task-time">14:32</span>
-                </div>
-
-                <div class="task-row">
-                    <div class="task-dot done"></div>
-                    <span class="task-name">Sync Eccoti analytics to dashboard</span>
-                    <span class="task-duration">8s</span>
-                    <span class="task-time">14:28</span>
-                </div>
-
-                <div class="task-row">
-                    <div class="task-dot done"></div>
-                    <span class="task-name">Clear Xcode derived data</span>
-                    <span class="task-duration">1m 04s</span>
-                    <span class="task-time">13:55</span>
-                </div>
-
-                <div class="task-row">
-                    <div class="task-dot done"></div>
-                    <span class="task-name">Pull TikTok metrics via API</span>
-                    <span class="task-duration">2s</span>
-                    <span class="task-time">13:40</span>
-                </div>
-
-                <div class="task-row">
-                    <div class="task-dot done"></div>
-                    <span class="task-name">Check eccoti.com uptime</span>
-                    <span class="task-duration">1s</span>
-                    <span class="task-time">13:30</span>
-                </div>
-
-                <div class="task-row">
-                    <div class="task-dot running"></div>
-                    <span class="task-name">Update BackTime metadata</span>
-                    <span class="task-duration">—</span>
-                    <span class="task-time">now</span>
-                </div>
-                </div>
+        <!-- Recent Activity Card -->
+        <div class="card">
+            <div class="activity-header">
+                <h2>Recent Activity</h2>
+                <span class="view-all">View all</span>
             </div>
-
-            <!-- Alerts Card -->
-            <div class="card">
-                <div class="card-header">
-                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13.73 21a2 2 0 01-3.46 0" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                    <span class="card-title">Alerts</span>
-                    <span class="card-badge" id="alerts-badge">5 recent</span>
+            <div class="activity-list" id="alerts-container">
+                <div class="activity-row">
+                    <span class="status-dot green"></span>
+                    <span class="activity-message">Nightly backup completed</span>
+                    <span class="activity-time">4h ago</span>
                 </div>
-
-                <div id="alerts-container">
-                <div class="alert-row warning">
-                    <div class="alert-message">Disk space below 15% — cleanup recommended</div>
-                    <div class="alert-time">2 min ago</div>
+                <div class="activity-row">
+                    <span class="status-dot green"></span>
+                    <span class="activity-message">TikTok metrics synced</span>
+                    <span class="activity-time">6h ago</span>
                 </div>
-
-                <div class="alert-row">
-                    <div class="alert-message">Nightly backup completed successfully</div>
-                    <div class="alert-time">4h ago</div>
+                <div class="activity-row">
+                    <span class="status-dot" style="background: #60a5fa; color: #60a5fa"></span>
+                    <span class="activity-message">eccoti.com SSL renewed</span>
+                    <span class="activity-time">1d ago</span>
                 </div>
-
-                <div class="alert-row info">
-                    <div class="alert-message">eccoti.com SSL certificate renewed</div>
-                    <div class="alert-time">1d ago</div>
-                </div>
-
-                <div class="alert-row error">
-                    <div class="alert-message">BackTime API endpoint timeout — auto-recovered</div>
-                    <div class="alert-time">2d ago</div>
-                </div>
-
-                <div class="alert-row">
-                    <div class="alert-message">TikTok metrics synced — 12.4k new views</div>
-                    <div class="alert-time">3d ago</div>
-                </div>
+                <div class="activity-row">
+                    <span class="status-dot" style="background: var(--gold); color: var(--gold)"></span>
+                    <span class="activity-message">Disk cleanup recommended</span>
+                    <span class="activity-time">2d ago</span>
                 </div>
             </div>
         </div>
@@ -1262,7 +1004,7 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-        import { getFirestore, doc, onSnapshot, collection } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+        import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
         // Firebase config for kitt-control-center
         const firebaseConfig = {
@@ -1275,23 +1017,16 @@
             measurementId: "G-6FP21GTV5R"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Helper: Format numbers (1000 -> 1K, 1000000 -> 1M)
+        // Helpers
         function formatNumber(num) {
             if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
             if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
             return num.toString();
         }
 
-        // Helper: Format bytes to GB
-        function formatGB(gb) {
-            return gb >= 1000 ? (gb / 1000).toFixed(1) + ' TB' : gb + ' GB';
-        }
-
-        // Helper: Time ago
         function timeAgo(timestamp) {
             if (!timestamp) return '';
             const now = new Date();
@@ -1303,12 +1038,12 @@
             return Math.floor(diff / 86400) + 'd ago';
         }
 
-        // Update connection status
         function setConnected(connected) {
             const dot = document.getElementById('live-dot');
             const text = document.getElementById('live-text');
             if (dot && text) {
                 dot.style.background = connected ? 'var(--primary)' : 'var(--red)';
+                dot.style.boxShadow = connected ? '0 0 8px var(--primary)' : '0 0 8px var(--red)';
                 text.textContent = connected ? 'Live' : 'Offline';
                 text.style.color = connected ? 'var(--primary)' : 'var(--red)';
             }
@@ -1320,72 +1055,47 @@
             const data = snapshot.data();
             setConnected(true);
 
+            if (data.cpu !== undefined) {
+                document.getElementById('cpu-value').innerHTML = data.cpu + '<span>%</span>';
+            }
+            if (data.memory !== undefined) {
+                document.getElementById('mem-value').innerHTML = data.memory + '<span>%</span>';
+            }
+            if (data.processes !== undefined) {
+                document.getElementById('process-count').textContent = data.processes;
+            }
+
             // Update drives
-            const drivesContainer = document.getElementById('drives-container');
-            if (drivesContainer && data.drives) {
-                drivesContainer.innerHTML = data.drives.map(drive => {
+            if (data.drives) {
+                const colors = ['var(--cyan)', 'var(--purple)', 'var(--orange)', 'var(--green)'];
+                let totalUsed = 0, totalCapacity = 0;
+
+                const drivesHTML = data.drives.map((drive, i) => {
                     const percent = Math.round((drive.used / drive.total) * 100);
-                    const color = percent > 85 ? 'var(--red)' : percent > 70 ? 'var(--gold)' : 'var(--primary)';
+                    const color = colors[i % colors.length];
+                    totalUsed += drive.used;
+                    totalCapacity += drive.total;
                     return `
                         <div class="drive-row">
                             <div class="drive-info">
+                                <div class="drive-color" style="background: ${color}"></div>
                                 <span class="drive-name">${drive.name}</span>
-                                <div class="drive-stats">
-                                    <span>${drive.used} / ${drive.total} GB</span>
-                                    <span class="drive-percent" style="color: ${color}">${percent}%</span>
-                                </div>
+                                <span class="drive-size">${drive.used} GB</span>
+                                <span class="drive-percent" style="color: ${color}">${percent}%</span>
                             </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${percent}%; background: ${color}"></div>
+                            <div class="drive-bar">
+                                <div class="drive-bar-fill" style="width: ${percent}%; background: ${color}"></div>
                             </div>
                         </div>
                     `;
                 }).join('');
-            }
 
-            // Update CPU
-            const cpuGauge = document.getElementById('cpu-gauge');
-            const cpuValue = document.getElementById('cpu-value');
-            if (cpuGauge && data.cpu !== undefined) {
-                cpuGauge.style.background = `conic-gradient(var(--primary) ${data.cpu * 3.6}deg, rgba(255,255,255,0.06) 0)`;
-                cpuValue.textContent = data.cpu;
-            }
+                document.getElementById('drives-container').innerHTML = drivesHTML;
 
-            // Update Memory
-            const memGauge = document.getElementById('mem-gauge');
-            const memValue = document.getElementById('mem-value');
-            if (memGauge && data.memory !== undefined) {
-                memGauge.style.background = `conic-gradient(var(--secondary) ${data.memory * 3.6}deg, rgba(255,255,255,0.06) 0)`;
-                memValue.textContent = data.memory;
-            }
-
-            // Update Processes
-            const processCount = document.getElementById('process-count');
-            if (processCount && data.processes !== undefined) {
-                processCount.textContent = data.processes;
-            }
-
-            // Update Firewall
-            const firewallDot = document.getElementById('firewall-dot');
-            if (firewallDot) {
-                firewallDot.className = 'dot ' + (data.firewall ? 'on' : 'off');
-            }
-
-            // Update FileVault
-            const filevaultDot = document.getElementById('filevault-dot');
-            if (filevaultDot) {
-                filevaultDot.className = 'dot ' + (data.fileVault ? 'on' : 'off');
-            }
-
-            // Update Backup
-            const backupStatus = document.getElementById('backup-status');
-            if (backupStatus && data.lastBackup) {
-                const date = data.lastBackup.toDate ? data.lastBackup.toDate() : new Date(data.lastBackup);
-                const formatted = date.toLocaleString('en-US', {
-                    month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true
-                });
-                backupStatus.innerHTML = `<span>${data.backupStatus === 'success' ? '✓' : '⚠'}</span><span>Last backup: ${formatted}</span>`;
-                backupStatus.style.background = data.backupStatus === 'success' ? 'var(--primary-dim)' : 'rgba(251,191,36,0.1)';
+                const totalPercent = Math.round((totalUsed / totalCapacity) * 100);
+                document.getElementById('storage-summary').textContent = `${totalUsed.toLocaleString()} GB of ${totalCapacity.toLocaleString()} GB used`;
+                document.getElementById('storage-chart').style.setProperty('--percent', totalPercent);
+                document.getElementById('storage-percent').textContent = totalPercent + '%';
             }
         }, (error) => {
             console.error('Mac Health error:', error);
@@ -1397,26 +1107,22 @@
             if (!snapshot.exists()) return;
             const data = snapshot.data();
 
-            document.getElementById('ai-model')?.textContent && (document.getElementById('ai-model').textContent = data.model || 'Unknown');
-            document.getElementById('ai-tokens-in')?.textContent && (document.getElementById('ai-tokens-in').textContent = formatNumber(data.tokensIn || 0));
-            document.getElementById('ai-tokens-out')?.textContent && (document.getElementById('ai-tokens-out').textContent = formatNumber(data.tokensOut || 0));
+            if (data.model) document.getElementById('ai-model').textContent = data.model;
+            if (data.tokensIn !== undefined) document.getElementById('ai-tokens-in').textContent = formatNumber(data.tokensIn);
+            if (data.tokensOut !== undefined) document.getElementById('ai-tokens-out').textContent = formatNumber(data.tokensOut);
+            if (data.estimatedCost !== undefined) document.getElementById('ai-cost').textContent = '$' + data.estimatedCost.toFixed(2);
 
-            const cacheGauge = document.getElementById('cache-gauge');
-            const cacheValue = document.getElementById('cache-value');
-            if (cacheGauge && data.cacheHitPercent !== undefined) {
-                cacheGauge.style.background = `conic-gradient(var(--primary) ${data.cacheHitPercent * 3.6}deg, rgba(255,255,255,0.06) 0)`;
-                cacheValue.textContent = data.cacheHitPercent;
+            if (data.cacheHitPercent !== undefined) {
+                document.getElementById('cache-gauge').style.setProperty('--percent', data.cacheHitPercent);
+                document.getElementById('cache-value').textContent = data.cacheHitPercent + '%';
             }
-
-            const ctxGauge = document.getElementById('ctx-gauge');
-            const ctxValue = document.getElementById('ctx-value');
-            if (ctxGauge && data.contextUsedPercent !== undefined) {
-                ctxGauge.style.background = `conic-gradient(var(--secondary) ${data.contextUsedPercent * 3.6}deg, rgba(255,255,255,0.06) 0)`;
-                ctxValue.textContent = data.contextUsedPercent;
+            if (data.contextUsedPercent !== undefined) {
+                document.getElementById('ctx-gauge').style.setProperty('--percent', data.contextUsedPercent);
+                document.getElementById('ctx-value').textContent = data.contextUsedPercent + '%';
             }
-
-            document.getElementById('compaction-count')?.textContent && (document.getElementById('compaction-count').textContent = data.compactionCount || 0);
-            document.getElementById('ai-cost')?.textContent && (document.getElementById('ai-cost').textContent = '$' + (data.estimatedCost || 0).toFixed(2));
+            if (data.compactionCount !== undefined) {
+                document.getElementById('compaction-count').textContent = data.compactionCount;
+            }
         });
 
         // Listen to Websites
@@ -1424,47 +1130,15 @@
             if (!snapshot.exists()) return;
             const data = snapshot.data();
 
-            const container = document.getElementById('websites-container');
-            if (container && data.sites) {
-                container.innerHTML = data.sites.map(site => `
+            if (data.sites) {
+                document.getElementById('websites-container').innerHTML = data.sites.map(site => `
                     <div class="website-row">
-                        <div class="website-header">
-                            <div class="website-name">
-                                <div class="dot" style="background: ${site.status === 'up' ? 'var(--primary)' : 'var(--red)'}"></div>
-                                <span>${site.name}</span>
-                            </div>
-                            <span class="website-status" style="color: ${site.status === 'up' ? 'var(--primary)' : 'var(--red)'}; background: ${site.status === 'up' ? 'var(--primary-dim)' : 'rgba(248,113,113,0.1)'}">${site.status.toUpperCase()}</span>
-                        </div>
-                        <div class="website-metrics">
-                            <span>Latency <strong>${site.latency}ms</strong></span>
-                            <span>Uptime <strong class="accent">${site.uptime}%</strong></span>
-                            <span>SSL <strong class="accent">${site.sslValid ? '✓' : '!'}</strong></span>
-                            ${site.lastDeployment ? `<span style="margin-left: auto;">Deployed <strong style="color: var(--secondary)">${site.lastDeployment}</strong></span>` : ''}
-                        </div>
+                        <span class="status-dot ${site.status === 'up' ? 'green' : 'red'}"></span>
+                        <span class="website-name">${site.name}</span>
+                        <span class="website-latency">${site.latency}ms</span>
+                        <span class="website-uptime">${site.uptime}%</span>
                     </div>
                 `).join('');
-            }
-        });
-
-        // Listen to Tasks
-        onSnapshot(doc(db, 'kitt', 'tasks'), (snapshot) => {
-            if (!snapshot.exists()) return;
-            const data = snapshot.data();
-
-            const container = document.getElementById('tasks-container');
-            if (container && data.logs) {
-                container.innerHTML = data.logs.slice(0, 6).map(task => {
-                    const statusClass = task.status === 'done' ? 'done' : task.status === 'running' ? 'running' : '';
-                    const time = task.status === 'running' ? 'now' : (task.timestamp ? new Date(task.timestamp.toDate ? task.timestamp.toDate() : task.timestamp).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false}) : '');
-                    return `
-                        <div class="task-row">
-                            <div class="task-dot ${statusClass}"></div>
-                            <span class="task-name">${task.name}</span>
-                            <span class="task-duration">${task.duration || '—'}</span>
-                            <span class="task-time">${time}</span>
-                        </div>
-                    `;
-                }).join('');
             }
         });
 
@@ -1473,14 +1147,18 @@
             if (!snapshot.exists()) return;
             const data = snapshot.data();
 
-            const container = document.getElementById('alerts-container');
-            const badge = document.getElementById('alerts-badge');
-            if (container && data.items) {
-                if (badge) badge.textContent = data.items.length + ' recent';
-                container.innerHTML = data.items.slice(0, 5).map(alert => `
-                    <div class="alert-row ${alert.type}">
-                        <div class="alert-message">${alert.message}</div>
-                        <div class="alert-time">${timeAgo(alert.timestamp)}</div>
+            if (data.items) {
+                const typeColors = {
+                    success: 'var(--green)',
+                    warning: 'var(--gold)',
+                    error: 'var(--red)',
+                    info: '#60a5fa'
+                };
+                document.getElementById('alerts-container').innerHTML = data.items.slice(0, 5).map(alert => `
+                    <div class="activity-row">
+                        <span class="status-dot" style="background: ${typeColors[alert.type] || 'var(--primary)'}; color: ${typeColors[alert.type] || 'var(--primary)'}"></span>
+                        <span class="activity-message">${alert.message}</span>
+                        <span class="activity-time">${timeAgo(alert.timestamp)}</span>
                     </div>
                 `).join('');
             }
@@ -1491,103 +1169,39 @@
             if (!snapshot.exists()) return;
             const data = snapshot.data();
 
-            const container = document.getElementById('marketing-container');
-            if (container) {
-                let html = '';
-
-                // TikTok accounts
-                if (data.tiktok) {
-                    data.tiktok.forEach(acc => {
-                        html += `
-                            <div class="social-row">
-                                <div class="social-header">
-                                    <div class="social-info">
-                                        <span>🎵</span>
-                                        <span class="social-name">${acc.account.replace('@', '')}</span>
-                                        <span class="manual-badge">MANUAL</span>
-                                    </div>
-                                    <span class="social-handle">${acc.account}</span>
-                                </div>
-                                <div class="social-metrics">
-                                    <div class="metric"><div class="value">${formatNumber(acc.views)}</div><div class="label">Views</div></div>
-                                    <div class="metric"><div class="value" style="color: var(--secondary)">${formatNumber(acc.likes)}</div><div class="label">Likes</div></div>
-                                    <div class="metric"><div class="value" style="color: var(--tertiary)">+${acc.followers}</div><div class="label">Followers</div></div>
-                                </div>
+            let html = '';
+            if (data.tiktok) {
+                data.tiktok.forEach(acc => {
+                    html += `
+                        <div class="social-row">
+                            <span class="social-icon">🎵</span>
+                            <div class="social-info">
+                                <div class="social-name">TikTok - ${acc.account}</div>
+                                <div class="social-meta">${formatNumber(acc.likes)} likes</div>
                             </div>
-                        `;
-                    });
-                }
-
-                // Instagram accounts
-                if (data.instagram) {
-                    data.instagram.forEach(acc => {
-                        html += `
-                            <div class="social-row">
-                                <div class="social-header">
-                                    <div class="social-info">
-                                        <span>📷</span>
-                                        <span class="social-name">${acc.account.replace('@', '')}</span>
-                                        <span class="manual-badge">MANUAL</span>
-                                    </div>
-                                    <span class="social-handle">${acc.account}</span>
-                                </div>
-                                <div class="social-metrics">
-                                    <div class="metric"><div class="value">${formatNumber(acc.reach)}</div><div class="label">Reach</div></div>
-                                    <div class="metric"><div class="value" style="color: var(--secondary)">${acc.engagement}%</div><div class="label">Engagement</div></div>
-                                    <div class="metric"><div class="value" style="color: var(--tertiary)">+${acc.followers}</div><div class="label">Followers</div></div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-
-                container.innerHTML = html;
+                            <span class="social-views">${formatNumber(acc.views)}</span>
+                        </div>
+                    `;
+                });
             }
+            if (data.instagram) {
+                data.instagram.forEach(acc => {
+                    html += `
+                        <div class="social-row">
+                            <span class="social-icon">📷</span>
+                            <div class="social-info">
+                                <div class="social-name">Instagram - ${acc.account}</div>
+                                <div class="social-meta">${acc.engagement}% engagement</div>
+                            </div>
+                            <span class="social-views">${formatNumber(acc.reach)}</span>
+                        </div>
+                    `;
+                });
+            }
+            if (html) document.getElementById('marketing-container').innerHTML = html;
         });
 
-        // Listen to App Downloads
-        onSnapshot(doc(db, 'kitt', 'appDownloads'), (snapshot) => {
-            if (!snapshot.exists()) return;
-            const data = snapshot.data();
-
-            const container = document.getElementById('downloads-container');
-            if (container && data.apps) {
-                container.innerHTML = data.apps.map(app => `
-                    <div class="app-row">
-                        <div class="app-header">
-                            <div class="app-info">
-                                <span class="app-icon">${app.name === 'Eccoti' ? '📱' : '⏱'}</span>
-                                <div>
-                                    <div class="app-name">${app.name}</div>
-                                    <div class="app-rating"><span class="star">★</span> ${app.rating} App Store</div>
-                                </div>
-                            </div>
-                            <div class="app-downloads">
-                                <div class="number" style="color: ${app.needsSetup ? 'var(--text-dim)' : '#fff'}">${app.needsSetup ? '—' : formatNumber(app.total)}</div>
-                                <div class="label" style="color: ${app.needsSetup ? 'var(--gold)' : 'var(--text-dim)'}">${app.needsSetup ? 'needs API setup' : 'total downloads'}</div>
-                            </div>
-                        </div>
-                        <div class="app-stats">
-                            <div class="stat-badge">
-                                <div class="label">TODAY</div>
-                                <div class="value" style="color: ${app.needsSetup ? 'var(--text-dim)' : 'var(--primary)'}">${app.needsSetup ? '—' : '+' + app.today}</div>
-                            </div>
-                            <div class="stat-badge">
-                                <div class="label">THIS WEEK</div>
-                                <div class="value" style="color: ${app.needsSetup ? 'var(--text-dim)' : 'var(--primary)'}">${app.needsSetup ? '—' : '+' + app.week}</div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            }
-        });
-
-        // Hue slider functionality
-        function setHue(hue) {
-            document.documentElement.style.setProperty('--hue', hue);
-        }
-
-        console.log('🚀 Kitt Dashboard initialized - waiting for Firestore data...');
+        console.log('Kitt Dashboard initialized');
     </script>
 </body>
 </html>
