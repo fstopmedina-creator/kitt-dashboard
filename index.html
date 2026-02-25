@@ -284,6 +284,82 @@
             background: var(--red);
         }
 
+        /* AI Usage Styles */
+        .ai-model-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .ai-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-dim);
+        }
+
+        .ai-value {
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'SF Mono', monospace;
+            color: var(--text);
+        }
+
+        .ai-value.accent {
+            color: var(--primary);
+        }
+
+        .ai-stats-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .ai-stat-box {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255,255,255,0.015);
+            border: 0.5px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .ai-stat-label {
+            font-size: 8px;
+            font-weight: 500;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+            margin-bottom: 4px;
+        }
+
+        .ai-stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'SF Mono', monospace;
+            color: var(--primary);
+        }
+
+        .ai-stat-value.secondary {
+            color: var(--secondary);
+        }
+
+        .ai-cost-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: var(--primary-dim);
+            border: 0.5px solid hsla(var(--hue), 70%, 60%, 0.2);
+            border-radius: 10px;
+            margin-top: 12px;
+        }
+
+        .ai-cost-value {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'SF Mono', monospace;
+            color: var(--primary);
+        }
+
         /* System Stats */
         .system-stats {
             display: flex;
@@ -813,6 +889,61 @@
                 <div class="backup-status">
                     <span>✓</span>
                     <span>Last backup: Today 2:30 PM</span>
+                </div>
+            </div>
+
+            <!-- AI Usage Card -->
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2" stroke="currentColor" stroke-width="2"/></svg>
+                    <span class="card-title">AI Usage</span>
+                    <span class="card-badge">Live</span>
+                </div>
+
+                <!-- Model Name -->
+                <div class="ai-model-row">
+                    <span class="ai-label">Model</span>
+                    <span class="ai-value accent">Claude Opus 4.5</span>
+                </div>
+
+                <!-- Token Stats -->
+                <div class="ai-stats-row">
+                    <div class="ai-stat-box">
+                        <div class="ai-stat-label">TOKENS IN</div>
+                        <div class="ai-stat-value">12.4K</div>
+                    </div>
+                    <div class="ai-stat-box">
+                        <div class="ai-stat-label">TOKENS OUT</div>
+                        <div class="ai-stat-value secondary">8.7K</div>
+                    </div>
+                </div>
+
+                <!-- Gauges -->
+                <div class="system-stats">
+                    <div class="mini-gauge">
+                        <div class="gauge-circle" style="--percent: 73">
+                            <span class="gauge-value">73</span>
+                        </div>
+                        <span class="gauge-label">CACHE</span>
+                    </div>
+                    <div class="mini-gauge">
+                        <div class="gauge-circle" style="--percent: 45; background: conic-gradient(var(--secondary) calc(45 * 3.6deg), rgba(255,255,255,0.06) 0)">
+                            <span class="gauge-value">45</span>
+                        </div>
+                        <span class="gauge-label">CTX</span>
+                    </div>
+                    <div class="mini-gauge">
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <span style="font-size: 18px; font-weight: 700; font-family: 'SF Mono', monospace; color: #fff;">2</span>
+                        </div>
+                        <span class="gauge-label">COMPACTS</span>
+                    </div>
+                </div>
+
+                <!-- Estimated Cost -->
+                <div class="ai-cost-row">
+                    <span class="ai-label">Estimated Cost</span>
+                    <span class="ai-cost-value">$0.42</span>
                 </div>
             </div>
 
