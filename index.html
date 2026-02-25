@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitt Control Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --hue: 195;
+            --primary: hsl(var(--hue), 70%, 60%);
+            --primary-dim: hsla(var(--hue), 70%, 60%, 0.12);
+            --secondary: hsl(calc(var(--hue) + 54), 65%, 55%);
+            --tertiary: hsl(calc(var(--hue) + 108), 60%, 50%);
+            --bg: #000;
+            --card: rgba(255, 255, 255, 0.015);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-light: rgba(255, 255, 255, 0.15);
+            --text: rgba(255, 255, 255, 0.92);
+            --text-mid: rgba(255, 255, 255, 0.55);
+            --text-dim: rgba(255, 255, 255, 0.30);
+            --red: #f87171;
+            --gold: #fbbf24;
+            --green: #4ade80;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 20px;
+            background: #000;
+            position: relative;
+            border-bottom: 1px solid transparent;
+            background-image: linear-gradient(#000, #000),
+                              linear-gradient(90deg,
+                                  hsla(var(--hue), 70%, 60%, 0.4),
+                                  hsla(var(--hue), 70%, 60%, 0.7),
+                                  #fff,
+                                  #fff,
+                                  #fff,
+                                  hsla(var(--hue), 70%, 60%, 0.7),
+                                  hsla(var(--hue), 70%, 60%, 0.4));
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+        }
+
+        .header-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lotus-orb {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%,
+                hsla(var(--hue), 70%, 70%, 0.8),
+                hsla(var(--hue), 70%, 50%, 0.6),
+                hsla(calc(var(--hue) + 54), 65%, 45%, 0.4),
+                transparent);
+            filter: blur(2px);
+            opacity: 0.85;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.85; }
+            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.95; }
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 16px 20px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-label {
+            font-size: 10px;
+            font-weight: 500;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: var(--primary-dim);
+            border: 0.5px solid hsla(var(--hue), 70%, 60%, 0.3);
+            border-radius: 20px;
+        }
+
+        .live-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--primary);
+            animation: blink 1s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .live-text {
+            font-size: 8px;
+            font-weight: 500;
+            font-family: 'SF Mono', monospace;
+            color: var(--primary);
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 14px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 20px;
+            border: 0.5px solid;
+            border-image: linear-gradient(135deg,
+                rgba(255,255,255,0.2),
+                rgba(255,255,255,0.08),
+                rgba(255,255,255,0.04)) 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent,
+                hsla(var(--hue), 70%, 60%, 0.3),
+                rgba(255,255,255,0.2),
+                hsla(var(--hue), 70%, 60%, 0.3),
+                transparent);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 16px;
+            height: 16px;
+            fill: var(--primary);
+        }
+
+        .card-title {
+            font-size: 10.5px;
+            font-weight: 500;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .card-badge {
+            font-size: 9px;
+            font-weight: 500;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+            padding: 3px 9px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-left: auto;
+        }
+
+        .card-badge.warning {
+            color: var(--gold);
+            background: rgba(251, 191, 36, 0.1);
+            border-color: rgba(251, 191, 36, 0.3);
+        }
+
+        /* Drive Row */
+        .drive-row {
+            background: rgba(255,255,255,0.01);
+            border: 0.5px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .drive-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .drive-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .drive-stats {
+            display: flex;
+            gap: 8px;
+            font-size: 11px;
+            font-family: 'SF Mono', monospace;
+        }
+
+        .drive-stats span {
+            color: var(--text-mid);
+        }
+
+        .drive-percent {
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill.warning {
+            background: var(--gold);
+        }
+
+        .progress-fill.danger {
+            background: var(--red);
+        }
+
+        /* System Stats */
+        .system-stats {
+            display: flex;
+            gap: 10px;
+            margin: 14px 0;
+        }
+
+        .mini-gauge {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .gauge-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) calc(var(--percent) * 3.6deg), rgba(255,255,255,0.06) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .gauge-circle::before {
+            content: '';
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background: #000;
+            border-radius: 50%;
+        }
+
+        .gauge-value {
+            position: relative;
+            z-index: 1;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'SF Mono', monospace;
+            color: #fff;
+        }
+
+        .gauge-label {
+            font-size: 8px;
+            font-weight: 500;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+        }
+
+        /* Status Pills */
+        .status-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            background: rgba(255,255,255,0.03);
+            border: 0.5px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .status-pill .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+        }
+
+        .status-pill .dot.on {
+            background: var(--primary);
+            box-shadow: 0 0 4px var(--primary);
+        }
+
+        .status-pill .dot.off {
+            background: var(--red);
+        }
+
+        /* Backup Status */
+        .backup-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--primary-dim);
+            border: 0.5px solid hsla(var(--hue), 70%, 60%, 0.2);
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        /* Website Row */
+        .website-row {
+            background: rgba(255,255,255,0.015);
+            border: 0.5px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .website-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .website-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .website-name .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 6px var(--primary);
+            animation: blink 1s ease-in-out infinite;
+        }
+
+        .website-name span {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .website-status {
+            font-size: 9px;
+            font-weight: 500;
+            font-family: 'SF Mono', monospace;
+            color: var(--primary);
+            padding: 2px 8px;
+            background: var(--primary-dim);
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .website-metrics {
+            display: flex;
+            gap: 12px;
+            font-size: 9px;
+            font-family: 'SF Mono', monospace;
+        }
+
+        .website-metrics span {
+            color: var(--text-dim);
+        }
+
+        .website-metrics strong {
+            color: var(--text-mid);
+            font-weight: 500;
+        }
+
+        .website-metrics .accent {
+            color: var(--primary);
+        }
+
+        /* App Download Row */
+        .app-row {
+            background: rgba(255,255,255,0.015);
+            border: 0.5px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .app-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-icon {
+            font-size: 22px;
+        }
+
+        .app-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .app-rating {
+            font-size: 10px;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+        }
+
+        .app-rating .star {
+            color: var(--gold);
+        }
+
+        .app-downloads {
+            text-align: right;
+        }
+
+        .app-downloads .number {
+            font-size: 22px;
+            font-weight: 700;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+        }
+
+        .app-downloads .label {
+            font-size: 9px;
+            font-family: 'SF Mono', monospace;
+            color: var(--gold);
+        }
+
+        .app-stats {
+            display: flex;
+            gap: 12px;
+        }
+
+        .stat-badge {
+            flex: 1;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.015);
+            border: 0.5px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+        }
+
+        .stat-badge .label {
+            font-size: 9px;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+            margin-bottom: 3px;
+        }
+
+        .stat-badge .value {
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+        }
+
+        /* Social Row */
+        .social-row {
+            background: rgba(255,255,255,0.015);
+            border: 0.5px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+
+        .social-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .social-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .social-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .manual-badge {
+            font-size: 7px;
+            font-weight: 700;
+            font-family: 'SF Mono', monospace;
+            color: var(--gold);
+            padding: 2px 5px;
+            background: rgba(251, 191, 36, 0.1);
+            border-radius: 4px;
+        }
+
+        .social-handle {
+            font-size: 10px;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+        }
+
+        .social-metrics {
+            display: flex;
+            gap: 8px;
+        }
+
+        .metric {
+            flex: 1;
+            text-align: center;
+        }
+
+        .metric .value {
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'SF Mono', monospace;
+            color: var(--primary);
+        }
+
+        .metric .label {
+            font-size: 9px;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+        }
+
+        /* Task Row */
+        .task-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            background: rgba(255,255,255,0.015);
+            border: 0.5px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            margin-bottom: 4px;
+        }
+
+        .task-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .task-dot.done {
+            background: var(--primary);
+            box-shadow: 0 0 4px var(--primary);
+        }
+
+        .task-dot.running {
+            background: var(--gold);
+            box-shadow: 0 0 4px var(--gold);
+            animation: blink 1s ease-in-out infinite;
+        }
+
+        .task-name {
+            flex: 1;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .task-duration {
+            font-size: 10px;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+        }
+
+        .task-time {
+            font-size: 10px;
+            font-family: 'SF Mono', monospace;
+            color: rgba(255,255,255,0.1);
+            width: 38px;
+            text-align: right;
+        }
+
+        /* Alert Row */
+        .alert-row {
+            padding: 11px 14px;
+            background: rgba(255,255,255,0.02);
+            border: 0.5px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            margin-bottom: 6px;
+            border-left: 3px solid var(--primary);
+            position: relative;
+        }
+
+        .alert-row.warning {
+            border-left-color: var(--gold);
+            background: rgba(251, 191, 36, 0.02);
+        }
+
+        .alert-row.error {
+            border-left-color: var(--red);
+            background: rgba(248, 113, 113, 0.02);
+        }
+
+        .alert-row.info {
+            border-left-color: #60a5fa;
+            background: rgba(96, 165, 250, 0.02);
+        }
+
+        .alert-message {
+            font-size: 12px;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+
+        .alert-time {
+            font-size: 9.5px;
+            font-family: 'SF Mono', monospace;
+            color: var(--text-dim);
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="lotus-orb"></div>
+            <span class="logo">Kitt</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="top-bar">
+            <span class="section-label">CONTROL CENTER</span>
+            <div class="live-badge">
+                <div class="live-dot"></div>
+                <span class="live-text">Live</span>
+            </div>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Mac Health Card -->
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="6" y1="20" x2="6" y2="24" stroke="currentColor" stroke-width="2"/><line x1="18" y1="20" x2="18" y2="24" stroke="currentColor" stroke-width="2"/></svg>
+                    <span class="card-title">Mac Health</span>
+                    <span class="card-badge">Live</span>
+                </div>
+
+                <!-- Drives -->
+                <div class="drive-row">
+                    <div class="drive-info">
+                        <span class="drive-name">Macintosh HD</span>
+                        <div class="drive-stats">
+                            <span>412 / 500 GB</span>
+                            <span class="drive-percent" style="color: var(--primary)">82%</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 82%"></div>
+                    </div>
+                </div>
+
+                <div class="drive-row">
+                    <div class="drive-info">
+                        <span class="drive-name">5TB External</span>
+                        <div class="drive-stats">
+                            <span>2847 / 5000 GB</span>
+                            <span class="drive-percent" style="color: var(--primary)">57%</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 57%"></div>
+                    </div>
+                </div>
+
+                <div class="drive-row">
+                    <div class="drive-info">
+                        <span class="drive-name">2TB Backup</span>
+                        <div class="drive-stats">
+                            <span>1203 / 2000 GB</span>
+                            <span class="drive-percent" style="color: var(--primary)">60%</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%"></div>
+                    </div>
+                </div>
+
+                <!-- System Stats -->
+                <div class="system-stats">
+                    <div class="mini-gauge">
+                        <div class="gauge-circle" style="--percent: 23">
+                            <span class="gauge-value">23</span>
+                        </div>
+                        <span class="gauge-label">CPU</span>
+                    </div>
+                    <div class="mini-gauge">
+                        <div class="gauge-circle" style="--percent: 67; background: conic-gradient(var(--secondary) calc(67 * 3.6deg), rgba(255,255,255,0.06) 0)">
+                            <span class="gauge-value">67</span>
+                        </div>
+                        <span class="gauge-label">MEM</span>
+                    </div>
+                    <div class="mini-gauge">
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <div class="live-dot" style="animation: none; opacity: 1;"></div>
+                            <span style="font-size: 14px; font-weight: 700; font-family: 'SF Mono', monospace; color: #fff;">142</span>
+                        </div>
+                        <span class="gauge-label">PROCESSES</span>
+                    </div>
+                </div>
+
+                <!-- Security Status -->
+                <div class="status-row">
+                    <div class="status-pill">
+                        <span>🔥</span>
+                        <span>Firewall</span>
+                        <div class="dot on"></div>
+                    </div>
+                    <div class="status-pill">
+                        <span>🔐</span>
+                        <span>FileVault</span>
+                        <div class="dot on"></div>
+                    </div>
+                </div>
+
+                <!-- Backup Status -->
+                <div class="backup-status">
+                    <span>✓</span>
+                    <span>Last backup: Today 2:30 PM</span>
+                </div>
+            </div>
+
+            <!-- Websites Card -->
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    <span class="card-title">Websites</span>
+                    <span class="card-badge">Live</span>
+                </div>
+
+                <div class="website-row">
+                    <div class="website-header">
+                        <div class="website-name">
+                            <div class="dot"></div>
+                            <span>jmedinaphotos.surge.sh</span>
+                        </div>
+                        <span class="website-status">UP</span>
+                    </div>
+                    <div class="website-metrics">
+                        <span>Latency <strong>89ms</strong></span>
+                        <span>Uptime <strong class="accent">99.97%</strong></span>
+                        <span>SSL <strong class="accent">✓</strong></span>
+                        <span style="margin-left: auto;">Deployed <strong style="color: var(--secondary)">Feb 24, 2026</strong></span>
+                    </div>
+                </div>
+
+                <div class="website-row">
+                    <div class="website-header">
+                        <div class="website-name">
+                            <div class="dot"></div>
+                            <span>eccoti.com</span>
+                        </div>
+                        <span class="website-status">UP</span>
+                    </div>
+                    <div class="website-metrics">
+                        <span>Latency <strong>142ms</strong></span>
+                        <span>Uptime <strong class="accent">99.98%</strong></span>
+                        <span>SSL <strong class="accent">✓</strong></span>
+                    </div>
+                </div>
+
+                <div class="website-row">
+                    <div class="website-header">
+                        <div class="website-name">
+                            <div class="dot"></div>
+                            <span>backtime.app</span>
+                        </div>
+                        <span class="website-status">UP</span>
+                    </div>
+                    <div class="website-metrics">
+                        <span>Latency <strong>98ms</strong></span>
+                        <span>Uptime <strong class="accent">99.99%</strong></span>
+                        <span>SSL <strong class="accent">✓</strong></span>
+                    </div>
+                </div>
+
+                <div class="website-row">
+                    <div class="website-header">
+                        <div class="website-name">
+                            <div class="dot"></div>
+                            <span>api.eccoti.com</span>
+                        </div>
+                        <span class="website-status">UP</span>
+                    </div>
+                    <div class="website-metrics">
+                        <span>Latency <strong>67ms</strong></span>
+                        <span>Uptime <strong class="accent">100%</strong></span>
+                        <span>SSL <strong class="accent">✓</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App Downloads Card -->
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="card-title">App Downloads</span>
+                    <span class="card-badge warning">Needs Setup</span>
+                </div>
+
+                <div class="app-row">
+                    <div class="app-header">
+                        <div class="app-info">
+                            <span class="app-icon">📱</span>
+                            <div>
+                                <div class="app-name">Eccoti</div>
+                                <div class="app-rating"><span class="star">★</span> 4.8 App Store</div>
+                            </div>
+                        </div>
+                        <div class="app-downloads">
+                            <div class="number">—</div>
+                            <div class="label">needs API setup</div>
+                        </div>
+                    </div>
+                    <div class="app-stats">
+                        <div class="stat-badge">
+                            <div class="label">TODAY</div>
+                            <div class="value">—</div>
+                        </div>
+                        <div class="stat-badge">
+                            <div class="label">THIS WEEK</div>
+                            <div class="value">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-row">
+                    <div class="app-header">
+                        <div class="app-info">
+                            <span class="app-icon">⏱</span>
+                            <div>
+                                <div class="app-name">BackTime</div>
+                                <div class="app-rating"><span class="star">★</span> 4.6 App Store</div>
+                            </div>
+                        </div>
+                        <div class="app-downloads">
+                            <div class="number">—</div>
+                            <div class="label">needs API setup</div>
+                        </div>
+                    </div>
+                    <div class="app-stats">
+                        <div class="stat-badge">
+                            <div class="label">TODAY</div>
+                            <div class="value">—</div>
+                        </div>
+                        <div class="stat-badge">
+                            <div class="label">THIS WEEK</div>
+                            <div class="value">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketing Card -->
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M3 3v18h18" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 16l4-4 4 4 5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    <span class="card-title">Marketing</span>
+                    <span class="card-badge">Partial</span>
+                </div>
+
+                <div class="social-row">
+                    <div class="social-header">
+                        <div class="social-info">
+                            <span>🎵</span>
+                            <span class="social-name">Eccoti</span>
+                            <span class="manual-badge">MANUAL</span>
+                        </div>
+                        <span class="social-handle">@eccoti</span>
+                    </div>
+                    <div class="social-metrics">
+                        <div class="metric">
+                            <div class="value">12.4K</div>
+                            <div class="label">Views</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value" style="color: var(--secondary)">1.8K</div>
+                            <div class="label">Likes</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value" style="color: var(--tertiary)">+247</div>
+                            <div class="label">Followers</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-row">
+                    <div class="social-header">
+                        <div class="social-info">
+                            <span>📷</span>
+                            <span class="social-name">Eccoti</span>
+                            <span class="manual-badge">MANUAL</span>
+                        </div>
+                        <span class="social-handle">@eccoti.app</span>
+                    </div>
+                    <div class="social-metrics">
+                        <div class="metric">
+                            <div class="value">8.2K</div>
+                            <div class="label">Reach</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value" style="color: var(--secondary)">4.1%</div>
+                            <div class="label">Engagement</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value" style="color: var(--tertiary)">+183</div>
+                            <div class="label">Followers</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-row">
+                    <div class="social-header">
+                        <div class="social-info">
+                            <span>🎵</span>
+                            <span class="social-name">BackTime</span>
+                            <span class="manual-badge">MANUAL</span>
+                        </div>
+                        <span class="social-handle">@backtime.app</span>
+                    </div>
+                    <div class="social-metrics">
+                        <div class="metric">
+                            <div class="value">5.1K</div>
+                            <div class="label">Views</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value" style="color: var(--secondary)">892</div>
+                            <div class="label">Likes</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value" style="color: var(--tertiary)">+89</div>
+                            <div class="label">Followers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Card -->
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    <span class="card-title">Tasks Log</span>
+                    <span class="card-badge">Today</span>
+                </div>
+
+                <div class="task-row">
+                    <div class="task-dot done"></div>
+                    <span class="task-name">Backup ~/Documents to iCloud</span>
+                    <span class="task-duration">3m 12s</span>
+                    <span class="task-time">14:32</span>
+                </div>
+
+                <div class="task-row">
+                    <div class="task-dot done"></div>
+                    <span class="task-name">Sync Eccoti analytics to dashboard</span>
+                    <span class="task-duration">8s</span>
+                    <span class="task-time">14:28</span>
+                </div>
+
+                <div class="task-row">
+                    <div class="task-dot done"></div>
+                    <span class="task-name">Clear Xcode derived data</span>
+                    <span class="task-duration">1m 04s</span>
+                    <span class="task-time">13:55</span>
+                </div>
+
+                <div class="task-row">
+                    <div class="task-dot done"></div>
+                    <span class="task-name">Pull TikTok metrics via API</span>
+                    <span class="task-duration">2s</span>
+                    <span class="task-time">13:40</span>
+                </div>
+
+                <div class="task-row">
+                    <div class="task-dot done"></div>
+                    <span class="task-name">Check eccoti.com uptime</span>
+                    <span class="task-duration">1s</span>
+                    <span class="task-time">13:30</span>
+                </div>
+
+                <div class="task-row">
+                    <div class="task-dot running"></div>
+                    <span class="task-name">Update BackTime metadata</span>
+                    <span class="task-duration">—</span>
+                    <span class="task-time">now</span>
+                </div>
+            </div>
+
+            <!-- Alerts Card -->
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13.73 21a2 2 0 01-3.46 0" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    <span class="card-title">Alerts</span>
+                    <span class="card-badge">5 recent</span>
+                </div>
+
+                <div class="alert-row warning">
+                    <div class="alert-message">Disk space below 15% — cleanup recommended</div>
+                    <div class="alert-time">2 min ago</div>
+                </div>
+
+                <div class="alert-row">
+                    <div class="alert-message">Nightly backup completed successfully</div>
+                    <div class="alert-time">4h ago</div>
+                </div>
+
+                <div class="alert-row info">
+                    <div class="alert-message">eccoti.com SSL certificate renewed</div>
+                    <div class="alert-time">1d ago</div>
+                </div>
+
+                <div class="alert-row error">
+                    <div class="alert-message">BackTime API endpoint timeout — auto-recovered</div>
+                    <div class="alert-time">2d ago</div>
+                </div>
+
+                <div class="alert-row">
+                    <div class="alert-message">TikTok metrics synced — 12.4k new views</div>
+                    <div class="alert-time">3d ago</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Hue slider functionality (can be added later)
+        function setHue(hue) {
+            document.documentElement.style.setProperty('--hue', hue);
+        }
+
+        // Example: setHue(280) for purple theme
+    </script>
+</body>
+</html>
