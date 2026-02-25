@@ -794,8 +794,8 @@
         <div class="top-bar">
             <span class="section-label">CONTROL CENTER</span>
             <div class="live-badge">
-                <div class="live-dot"></div>
-                <span class="live-text">Live</span>
+                <div class="live-dot" id="live-dot"></div>
+                <span class="live-text" id="live-text">Live</span>
             </div>
         </div>
 
@@ -809,63 +809,63 @@
                 </div>
 
                 <!-- Drives -->
-                <div class="drive-row">
-                    <div class="drive-info">
-                        <span class="drive-name">Macintosh HD</span>
-                        <div class="drive-stats">
-                            <span>412 / 500 GB</span>
-                            <span class="drive-percent" style="color: var(--primary)">82%</span>
+                <div id="drives-container">
+                    <div class="drive-row">
+                        <div class="drive-info">
+                            <span class="drive-name">Macintosh HD</span>
+                            <div class="drive-stats">
+                                <span>412 / 500 GB</span>
+                                <span class="drive-percent" style="color: var(--primary)">82%</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 82%"></div>
                         </div>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 82%"></div>
-                    </div>
-                </div>
-
-                <div class="drive-row">
-                    <div class="drive-info">
-                        <span class="drive-name">5TB External</span>
-                        <div class="drive-stats">
-                            <span>2847 / 5000 GB</span>
-                            <span class="drive-percent" style="color: var(--primary)">57%</span>
+                    <div class="drive-row">
+                        <div class="drive-info">
+                            <span class="drive-name">5TB External</span>
+                            <div class="drive-stats">
+                                <span>2847 / 5000 GB</span>
+                                <span class="drive-percent" style="color: var(--primary)">57%</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 57%"></div>
                         </div>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 57%"></div>
-                    </div>
-                </div>
-
-                <div class="drive-row">
-                    <div class="drive-info">
-                        <span class="drive-name">2TB Backup</span>
-                        <div class="drive-stats">
-                            <span>1203 / 2000 GB</span>
-                            <span class="drive-percent" style="color: var(--primary)">60%</span>
+                    <div class="drive-row">
+                        <div class="drive-info">
+                            <span class="drive-name">2TB Backup</span>
+                            <div class="drive-stats">
+                                <span>1203 / 2000 GB</span>
+                                <span class="drive-percent" style="color: var(--primary)">60%</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 60%"></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- System Stats -->
                 <div class="system-stats">
                     <div class="mini-gauge">
-                        <div class="gauge-circle" style="--percent: 23">
-                            <span class="gauge-value">23</span>
+                        <div class="gauge-circle" id="cpu-gauge" style="--percent: 23">
+                            <span class="gauge-value" id="cpu-value">23</span>
                         </div>
                         <span class="gauge-label">CPU</span>
                     </div>
                     <div class="mini-gauge">
-                        <div class="gauge-circle" style="--percent: 67; background: conic-gradient(var(--secondary) calc(67 * 3.6deg), rgba(255,255,255,0.06) 0)">
-                            <span class="gauge-value">67</span>
+                        <div class="gauge-circle" id="mem-gauge" style="--percent: 67; background: conic-gradient(var(--secondary) calc(67 * 3.6deg), rgba(255,255,255,0.06) 0)">
+                            <span class="gauge-value" id="mem-value">67</span>
                         </div>
                         <span class="gauge-label">MEM</span>
                     </div>
                     <div class="mini-gauge">
                         <div style="display: flex; align-items: center; gap: 4px;">
                             <div class="live-dot" style="animation: none; opacity: 1;"></div>
-                            <span style="font-size: 14px; font-weight: 700; font-family: 'SF Mono', monospace; color: #fff;">142</span>
+                            <span id="process-count" style="font-size: 14px; font-weight: 700; font-family: 'SF Mono', monospace; color: #fff;">142</span>
                         </div>
                         <span class="gauge-label">PROCESSES</span>
                     </div>
@@ -876,17 +876,17 @@
                     <div class="status-pill">
                         <span>🔥</span>
                         <span>Firewall</span>
-                        <div class="dot on"></div>
+                        <div class="dot on" id="firewall-dot"></div>
                     </div>
                     <div class="status-pill">
                         <span>🔐</span>
                         <span>FileVault</span>
-                        <div class="dot on"></div>
+                        <div class="dot on" id="filevault-dot"></div>
                     </div>
                 </div>
 
                 <!-- Backup Status -->
-                <div class="backup-status">
+                <div class="backup-status" id="backup-status">
                     <span>✓</span>
                     <span>Last backup: Today 2:30 PM</span>
                 </div>
@@ -903,38 +903,38 @@
                 <!-- Model Name -->
                 <div class="ai-model-row">
                     <span class="ai-label">Model</span>
-                    <span class="ai-value accent">Claude Opus 4.5</span>
+                    <span class="ai-value accent" id="ai-model">Claude Opus 4.5</span>
                 </div>
 
                 <!-- Token Stats -->
                 <div class="ai-stats-row">
                     <div class="ai-stat-box">
                         <div class="ai-stat-label">TOKENS IN</div>
-                        <div class="ai-stat-value">12.4K</div>
+                        <div class="ai-stat-value" id="ai-tokens-in">12.4K</div>
                     </div>
                     <div class="ai-stat-box">
                         <div class="ai-stat-label">TOKENS OUT</div>
-                        <div class="ai-stat-value secondary">8.7K</div>
+                        <div class="ai-stat-value secondary" id="ai-tokens-out">8.7K</div>
                     </div>
                 </div>
 
                 <!-- Gauges -->
                 <div class="system-stats">
                     <div class="mini-gauge">
-                        <div class="gauge-circle" style="--percent: 73">
-                            <span class="gauge-value">73</span>
+                        <div class="gauge-circle" id="cache-gauge" style="--percent: 73">
+                            <span class="gauge-value" id="cache-value">73</span>
                         </div>
                         <span class="gauge-label">CACHE</span>
                     </div>
                     <div class="mini-gauge">
-                        <div class="gauge-circle" style="--percent: 45; background: conic-gradient(var(--secondary) calc(45 * 3.6deg), rgba(255,255,255,0.06) 0)">
-                            <span class="gauge-value">45</span>
+                        <div class="gauge-circle" id="ctx-gauge" style="--percent: 45; background: conic-gradient(var(--secondary) calc(45 * 3.6deg), rgba(255,255,255,0.06) 0)">
+                            <span class="gauge-value" id="ctx-value">45</span>
                         </div>
                         <span class="gauge-label">CTX</span>
                     </div>
                     <div class="mini-gauge">
                         <div style="display: flex; flex-direction: column; align-items: center;">
-                            <span style="font-size: 18px; font-weight: 700; font-family: 'SF Mono', monospace; color: #fff;">2</span>
+                            <span id="compaction-count" style="font-size: 18px; font-weight: 700; font-family: 'SF Mono', monospace; color: #fff;">2</span>
                         </div>
                         <span class="gauge-label">COMPACTS</span>
                     </div>
@@ -943,7 +943,7 @@
                 <!-- Estimated Cost -->
                 <div class="ai-cost-row">
                     <span class="ai-label">Estimated Cost</span>
-                    <span class="ai-cost-value">$0.42</span>
+                    <span class="ai-cost-value" id="ai-cost">$0.42</span>
                 </div>
             </div>
 
@@ -955,6 +955,7 @@
                     <span class="card-badge">Live</span>
                 </div>
 
+                <div id="websites-container">
                 <div class="website-row">
                     <div class="website-header">
                         <div class="website-name">
@@ -1015,6 +1016,7 @@
                         <span>SSL <strong class="accent">✓</strong></span>
                     </div>
                 </div>
+                </div>
             </div>
 
             <!-- App Downloads Card -->
@@ -1025,6 +1027,7 @@
                     <span class="card-badge warning">Needs Setup</span>
                 </div>
 
+                <div id="downloads-container">
                 <div class="app-row">
                     <div class="app-header">
                         <div class="app-info">
@@ -1076,6 +1079,7 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
 
             <!-- Marketing Card -->
@@ -1086,6 +1090,7 @@
                     <span class="card-badge">Partial</span>
                 </div>
 
+                <div id="marketing-container">
                 <div class="social-row">
                     <div class="social-header">
                         <div class="social-info">
@@ -1160,6 +1165,7 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
 
             <!-- Tasks Card -->
@@ -1170,6 +1176,7 @@
                     <span class="card-badge">Today</span>
                 </div>
 
+                <div id="tasks-container">
                 <div class="task-row">
                     <div class="task-dot done"></div>
                     <span class="task-name">Backup ~/Documents to iCloud</span>
@@ -1211,6 +1218,7 @@
                     <span class="task-duration">—</span>
                     <span class="task-time">now</span>
                 </div>
+                </div>
             </div>
 
             <!-- Alerts Card -->
@@ -1218,9 +1226,10 @@
                 <div class="card-header">
                     <svg class="card-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13.73 21a2 2 0 01-3.46 0" fill="none" stroke="currentColor" stroke-width="2"/></svg>
                     <span class="card-title">Alerts</span>
-                    <span class="card-badge">5 recent</span>
+                    <span class="card-badge" id="alerts-badge">5 recent</span>
                 </div>
 
+                <div id="alerts-container">
                 <div class="alert-row warning">
                     <div class="alert-message">Disk space below 15% — cleanup recommended</div>
                     <div class="alert-time">2 min ago</div>
@@ -1245,17 +1254,339 @@
                     <div class="alert-message">TikTok metrics synced — 12.4k new views</div>
                     <div class="alert-time">3d ago</div>
                 </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <script>
-        // Hue slider functionality (can be added later)
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getFirestore, doc, onSnapshot, collection } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+        // TODO: Replace with your Firebase config
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Helper: Format numbers (1000 -> 1K, 1000000 -> 1M)
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        // Helper: Format bytes to GB
+        function formatGB(gb) {
+            return gb >= 1000 ? (gb / 1000).toFixed(1) + ' TB' : gb + ' GB';
+        }
+
+        // Helper: Time ago
+        function timeAgo(timestamp) {
+            if (!timestamp) return '';
+            const now = new Date();
+            const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+            const diff = Math.floor((now - date) / 1000);
+            if (diff < 60) return 'just now';
+            if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+            if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+            return Math.floor(diff / 86400) + 'd ago';
+        }
+
+        // Update connection status
+        function setConnected(connected) {
+            const dot = document.getElementById('live-dot');
+            const text = document.getElementById('live-text');
+            if (dot && text) {
+                dot.style.background = connected ? 'var(--primary)' : 'var(--red)';
+                text.textContent = connected ? 'Live' : 'Offline';
+                text.style.color = connected ? 'var(--primary)' : 'var(--red)';
+            }
+        }
+
+        // Listen to Mac Health
+        onSnapshot(doc(db, 'kitt', 'macHealth'), (snapshot) => {
+            if (!snapshot.exists()) return;
+            const data = snapshot.data();
+            setConnected(true);
+
+            // Update drives
+            const drivesContainer = document.getElementById('drives-container');
+            if (drivesContainer && data.drives) {
+                drivesContainer.innerHTML = data.drives.map(drive => {
+                    const percent = Math.round((drive.used / drive.total) * 100);
+                    const color = percent > 85 ? 'var(--red)' : percent > 70 ? 'var(--gold)' : 'var(--primary)';
+                    return `
+                        <div class="drive-row">
+                            <div class="drive-info">
+                                <span class="drive-name">${drive.name}</span>
+                                <div class="drive-stats">
+                                    <span>${drive.used} / ${drive.total} GB</span>
+                                    <span class="drive-percent" style="color: ${color}">${percent}%</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${percent}%; background: ${color}"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Update CPU
+            const cpuGauge = document.getElementById('cpu-gauge');
+            const cpuValue = document.getElementById('cpu-value');
+            if (cpuGauge && data.cpu !== undefined) {
+                cpuGauge.style.background = `conic-gradient(var(--primary) ${data.cpu * 3.6}deg, rgba(255,255,255,0.06) 0)`;
+                cpuValue.textContent = data.cpu;
+            }
+
+            // Update Memory
+            const memGauge = document.getElementById('mem-gauge');
+            const memValue = document.getElementById('mem-value');
+            if (memGauge && data.memory !== undefined) {
+                memGauge.style.background = `conic-gradient(var(--secondary) ${data.memory * 3.6}deg, rgba(255,255,255,0.06) 0)`;
+                memValue.textContent = data.memory;
+            }
+
+            // Update Processes
+            const processCount = document.getElementById('process-count');
+            if (processCount && data.processes !== undefined) {
+                processCount.textContent = data.processes;
+            }
+
+            // Update Firewall
+            const firewallDot = document.getElementById('firewall-dot');
+            if (firewallDot) {
+                firewallDot.className = 'dot ' + (data.firewall ? 'on' : 'off');
+            }
+
+            // Update FileVault
+            const filevaultDot = document.getElementById('filevault-dot');
+            if (filevaultDot) {
+                filevaultDot.className = 'dot ' + (data.fileVault ? 'on' : 'off');
+            }
+
+            // Update Backup
+            const backupStatus = document.getElementById('backup-status');
+            if (backupStatus && data.lastBackup) {
+                const date = data.lastBackup.toDate ? data.lastBackup.toDate() : new Date(data.lastBackup);
+                const formatted = date.toLocaleString('en-US', {
+                    month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true
+                });
+                backupStatus.innerHTML = `<span>${data.backupStatus === 'success' ? '✓' : '⚠'}</span><span>Last backup: ${formatted}</span>`;
+                backupStatus.style.background = data.backupStatus === 'success' ? 'var(--primary-dim)' : 'rgba(251,191,36,0.1)';
+            }
+        }, (error) => {
+            console.error('Mac Health error:', error);
+            setConnected(false);
+        });
+
+        // Listen to AI Usage
+        onSnapshot(doc(db, 'kitt', 'aiUsage'), (snapshot) => {
+            if (!snapshot.exists()) return;
+            const data = snapshot.data();
+
+            document.getElementById('ai-model')?.textContent && (document.getElementById('ai-model').textContent = data.model || 'Unknown');
+            document.getElementById('ai-tokens-in')?.textContent && (document.getElementById('ai-tokens-in').textContent = formatNumber(data.tokensIn || 0));
+            document.getElementById('ai-tokens-out')?.textContent && (document.getElementById('ai-tokens-out').textContent = formatNumber(data.tokensOut || 0));
+
+            const cacheGauge = document.getElementById('cache-gauge');
+            const cacheValue = document.getElementById('cache-value');
+            if (cacheGauge && data.cacheHitPercent !== undefined) {
+                cacheGauge.style.background = `conic-gradient(var(--primary) ${data.cacheHitPercent * 3.6}deg, rgba(255,255,255,0.06) 0)`;
+                cacheValue.textContent = data.cacheHitPercent;
+            }
+
+            const ctxGauge = document.getElementById('ctx-gauge');
+            const ctxValue = document.getElementById('ctx-value');
+            if (ctxGauge && data.contextUsedPercent !== undefined) {
+                ctxGauge.style.background = `conic-gradient(var(--secondary) ${data.contextUsedPercent * 3.6}deg, rgba(255,255,255,0.06) 0)`;
+                ctxValue.textContent = data.contextUsedPercent;
+            }
+
+            document.getElementById('compaction-count')?.textContent && (document.getElementById('compaction-count').textContent = data.compactionCount || 0);
+            document.getElementById('ai-cost')?.textContent && (document.getElementById('ai-cost').textContent = '$' + (data.estimatedCost || 0).toFixed(2));
+        });
+
+        // Listen to Websites
+        onSnapshot(doc(db, 'kitt', 'websites'), (snapshot) => {
+            if (!snapshot.exists()) return;
+            const data = snapshot.data();
+
+            const container = document.getElementById('websites-container');
+            if (container && data.sites) {
+                container.innerHTML = data.sites.map(site => `
+                    <div class="website-row">
+                        <div class="website-header">
+                            <div class="website-name">
+                                <div class="dot" style="background: ${site.status === 'up' ? 'var(--primary)' : 'var(--red)'}"></div>
+                                <span>${site.name}</span>
+                            </div>
+                            <span class="website-status" style="color: ${site.status === 'up' ? 'var(--primary)' : 'var(--red)'}; background: ${site.status === 'up' ? 'var(--primary-dim)' : 'rgba(248,113,113,0.1)'}">${site.status.toUpperCase()}</span>
+                        </div>
+                        <div class="website-metrics">
+                            <span>Latency <strong>${site.latency}ms</strong></span>
+                            <span>Uptime <strong class="accent">${site.uptime}%</strong></span>
+                            <span>SSL <strong class="accent">${site.sslValid ? '✓' : '!'}</strong></span>
+                            ${site.lastDeployment ? `<span style="margin-left: auto;">Deployed <strong style="color: var(--secondary)">${site.lastDeployment}</strong></span>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        });
+
+        // Listen to Tasks
+        onSnapshot(doc(db, 'kitt', 'tasks'), (snapshot) => {
+            if (!snapshot.exists()) return;
+            const data = snapshot.data();
+
+            const container = document.getElementById('tasks-container');
+            if (container && data.logs) {
+                container.innerHTML = data.logs.slice(0, 6).map(task => {
+                    const statusClass = task.status === 'done' ? 'done' : task.status === 'running' ? 'running' : '';
+                    const time = task.status === 'running' ? 'now' : (task.timestamp ? new Date(task.timestamp.toDate ? task.timestamp.toDate() : task.timestamp).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false}) : '');
+                    return `
+                        <div class="task-row">
+                            <div class="task-dot ${statusClass}"></div>
+                            <span class="task-name">${task.name}</span>
+                            <span class="task-duration">${task.duration || '—'}</span>
+                            <span class="task-time">${time}</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+        });
+
+        // Listen to Alerts
+        onSnapshot(doc(db, 'kitt', 'alerts'), (snapshot) => {
+            if (!snapshot.exists()) return;
+            const data = snapshot.data();
+
+            const container = document.getElementById('alerts-container');
+            const badge = document.getElementById('alerts-badge');
+            if (container && data.items) {
+                if (badge) badge.textContent = data.items.length + ' recent';
+                container.innerHTML = data.items.slice(0, 5).map(alert => `
+                    <div class="alert-row ${alert.type}">
+                        <div class="alert-message">${alert.message}</div>
+                        <div class="alert-time">${timeAgo(alert.timestamp)}</div>
+                    </div>
+                `).join('');
+            }
+        });
+
+        // Listen to Marketing
+        onSnapshot(doc(db, 'kitt', 'marketing'), (snapshot) => {
+            if (!snapshot.exists()) return;
+            const data = snapshot.data();
+
+            const container = document.getElementById('marketing-container');
+            if (container) {
+                let html = '';
+
+                // TikTok accounts
+                if (data.tiktok) {
+                    data.tiktok.forEach(acc => {
+                        html += `
+                            <div class="social-row">
+                                <div class="social-header">
+                                    <div class="social-info">
+                                        <span>🎵</span>
+                                        <span class="social-name">${acc.account.replace('@', '')}</span>
+                                        <span class="manual-badge">MANUAL</span>
+                                    </div>
+                                    <span class="social-handle">${acc.account}</span>
+                                </div>
+                                <div class="social-metrics">
+                                    <div class="metric"><div class="value">${formatNumber(acc.views)}</div><div class="label">Views</div></div>
+                                    <div class="metric"><div class="value" style="color: var(--secondary)">${formatNumber(acc.likes)}</div><div class="label">Likes</div></div>
+                                    <div class="metric"><div class="value" style="color: var(--tertiary)">+${acc.followers}</div><div class="label">Followers</div></div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                // Instagram accounts
+                if (data.instagram) {
+                    data.instagram.forEach(acc => {
+                        html += `
+                            <div class="social-row">
+                                <div class="social-header">
+                                    <div class="social-info">
+                                        <span>📷</span>
+                                        <span class="social-name">${acc.account.replace('@', '')}</span>
+                                        <span class="manual-badge">MANUAL</span>
+                                    </div>
+                                    <span class="social-handle">${acc.account}</span>
+                                </div>
+                                <div class="social-metrics">
+                                    <div class="metric"><div class="value">${formatNumber(acc.reach)}</div><div class="label">Reach</div></div>
+                                    <div class="metric"><div class="value" style="color: var(--secondary)">${acc.engagement}%</div><div class="label">Engagement</div></div>
+                                    <div class="metric"><div class="value" style="color: var(--tertiary)">+${acc.followers}</div><div class="label">Followers</div></div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                container.innerHTML = html;
+            }
+        });
+
+        // Listen to App Downloads
+        onSnapshot(doc(db, 'kitt', 'appDownloads'), (snapshot) => {
+            if (!snapshot.exists()) return;
+            const data = snapshot.data();
+
+            const container = document.getElementById('downloads-container');
+            if (container && data.apps) {
+                container.innerHTML = data.apps.map(app => `
+                    <div class="app-row">
+                        <div class="app-header">
+                            <div class="app-info">
+                                <span class="app-icon">${app.name === 'Eccoti' ? '📱' : '⏱'}</span>
+                                <div>
+                                    <div class="app-name">${app.name}</div>
+                                    <div class="app-rating"><span class="star">★</span> ${app.rating} App Store</div>
+                                </div>
+                            </div>
+                            <div class="app-downloads">
+                                <div class="number" style="color: ${app.needsSetup ? 'var(--text-dim)' : '#fff'}">${app.needsSetup ? '—' : formatNumber(app.total)}</div>
+                                <div class="label" style="color: ${app.needsSetup ? 'var(--gold)' : 'var(--text-dim)'}">${app.needsSetup ? 'needs API setup' : 'total downloads'}</div>
+                            </div>
+                        </div>
+                        <div class="app-stats">
+                            <div class="stat-badge">
+                                <div class="label">TODAY</div>
+                                <div class="value" style="color: ${app.needsSetup ? 'var(--text-dim)' : 'var(--primary)'}">${app.needsSetup ? '—' : '+' + app.today}</div>
+                            </div>
+                            <div class="stat-badge">
+                                <div class="label">THIS WEEK</div>
+                                <div class="value" style="color: ${app.needsSetup ? 'var(--text-dim)' : 'var(--primary)'}">${app.needsSetup ? '—' : '+' + app.week}</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        });
+
+        // Hue slider functionality
         function setHue(hue) {
             document.documentElement.style.setProperty('--hue', hue);
         }
 
-        // Example: setHue(280) for purple theme
+        console.log('🚀 Kitt Dashboard initialized - waiting for Firestore data...');
     </script>
 </body>
 </html>
